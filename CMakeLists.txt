@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.17)
+project(class_protect)
+link_directories("C:/RT/msys64/mingw64/lib")
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -D FREEGLUT_STATIC")
+add_executable(class_protect main.cpp LinkList.h Initmap.cpp DTO.h config.h toolsFunction.cpp readExcel.cpp)
+target_link_libraries(class_protect freeglut_static opengl32 winmm gdi32 glu32.lib)
