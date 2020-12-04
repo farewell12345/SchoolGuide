@@ -5,11 +5,11 @@
 #ifndef CLASS_PROTECT_INITMAP_H
 #define CLASS_PROTECT_INITMAP_H
 #include "DTO.h"
-extern int nodeNum;
-Node* createMap();
-Node* initNode();
+extern int NodeNum;
+Node* createMap(Node* );
+Node* initNode(Node*);
 void initEdge(Edge*cur,Node* tail,Node* top,int weight);
-void pushSequenceNode(Node* head,Node* sign);
+Node* pushSequenceNode(Node* head,Node* sign);
 void InsertNode(Node* root,Node* sign);
 void setName(Node* root,char* name);
 void setIntroduce(Node* root,char* introduce);

@@ -3,20 +3,22 @@
 //
 /*线索化二叉树*/
 #include "toolsFunction.h"
-#include <cstring>
-node **visited;
+#include <string.h>
+extern NodeNum;
+int visitedNum = 0;
+Node **visited;
 int **shortPath,**path;
-bool nodeIsVisited(node* nodes){
+bool NodeIsVisited(Node* Nodes){
     for (int i = 0; i < visitedNum; ++i) {
-        if (visited[i]==nodes){
+        if (visited[i]==Nodes){
             return true;
         }
     }
     return false;
 }
-int getWeight(node *tail,node* top){
+int getWeight(Node* tail,Node* top){
     Edge *e = tail->firstEdge;
-    while(e!=nullptr){
+    while(e!=NULL){
         if (e->top == top){
             return e->weight;
         }
@@ -24,7 +26,7 @@ int getWeight(node *tail,node* top){
     }
     return INF;
 }
-void getPath(node *head,int start,int end){ // 递归输出沿路路径
+void getPath(Node *head,int start,int end){ // 递归输出沿路路径
     if (start == path[start][end]){ // 此处说明回到了起点，则结束递归，从起点开始输出路径
         printf("%s->%s->",getNode(head,start)->name,getNode(head,end)->name);
     }else{
@@ -32,13 +34,13 @@ void getPath(node *head,int start,int end){ // 递归输出沿路路径
         printf("%s->",getNode(head,end)->name); // 到达这里时说明找到了起点，从起点开始输出路径
     }
 }
-void dfs(node* cur) {
-    if (nodeIsVisited(cur) == true) return;
+void dfs(Node* cur) {
+    if (NodeIsVisited(cur) == true) return;
     visited[visitedNum-1] = cur;
     visitedNum++;
     Edge *edge = cur->firstEdge;
-    while (edge != nullptr) {
-        if(nodeIsVisited(edge->top) == false) {
+    while (edge != NULL) {
+        if(NodeIsVisited(edge->top) == false) {
             printf("%s->", edge->top->name);
             dfs(edge->top);
         }
@@ -46,8 +48,8 @@ void dfs(node* cur) {
     }
 }
 
-node *getNode(node *head, int i){
-    node *temp = head;
+Node *getNode(Node *head, int i){
+    Node *temp = head;
     for (int j = 0; j < i; ++j) {
         temp = temp->sequenceNext;
     }
@@ -58,15 +60,15 @@ bool equals(char* name1,char* name2){
     return strcmp(name1,name2) == 0? true:false;
 };
 
-node *prev; // 上次访问的节点(前驱节点）
-node * frontOrderTrailTree(node *head){
-    if(head == nullptr) return head;
+Node *prev; // 上次访问的节点(前驱节点）
+Node * frontOrderTrailTree(Node *head){
+    if(head == NULL) return head;
 
-    if(head->left == nullptr){ // 遵循左前右后
+    if(head->left == NULL){ // 遵循左前右后
         head->left = prev; // 将空闲的左节点指向前驱节点
         head->leftTag = 1; // 表示这个节点的左指针已被线索化
     }
-    if(prev != nullptr && prev->right == nullptr){
+    if(prev != NULL && prev->right == NULL){
         prev->right = head; // 将空闲的右节点指向后继节点
         prev ->rightTag = 1;// 表示这个节点的右指针已被线索化
     }
@@ -81,11 +83,11 @@ node * frontOrderTrailTree(node *head){
     return head;
 }
 /*遍历查找*/
-node *preOrderTrailTree(node *head,char *name){
-    node* cur = head;
+Node *preOrderTrailTree(Node *head,char *name){
+    Node* cur = head;
     /*不断沿着节点往下遍历，直到所有节点全部被遍历
      * 线索化以后，树的最后一个节点的右孩子（后继节点）为NULL*/
-    while (cur!=nullptr)
+    while (cur!=NULL)
     {
         while (cur->leftTag == 0)
         {
@@ -100,15 +102,15 @@ node *preOrderTrailTree(node *head,char *name){
         cur = cur->right; // 沿着右孩子寻找后继节点
     }
     free(cur);
-    return nullptr;
+    return NULL;
 }
 
-void printMap(node *head){
-    visited = (node**)malloc(sizeof(node*)*nodeNum);
-    for (int i = 0; i < nodeNum; ++i) {
-        visited[i]=nullptr;
+void printMap(Node *head){
+    visited = (Node**)malloc(sizeof(Node*)*NodeNum);
+    for (int i = 0; i < NodeNum; ++i) {
+        visited[i]=NULL;
     }
-    node* cur = head;
+    Node* cur = head;
     /*不断沿着节点往下遍历，直到所有节点全部被遍历
      * 线索化以后，树的最后一个节点的右孩子（后继节点）为NULL*/
     while (cur!=NULL)
@@ -124,15 +126,15 @@ void printMap(node *head){
     free(cur);
 };
 
-void Floyd(node* head){
-    shortPath = (int **)malloc(sizeof(int*)*nodeNum);
-    path = (int **)malloc(sizeof(int*)*nodeNum);
-    for (int i = 0; i < nodeNum; ++i) {
+void Floyd(Node* head){
+    shortPath = (int **)malloc(sizeof(int*)*NodeNum);
+    path = (int **)malloc(sizeof(int*)*NodeNum);
+    for (int i = 0; i < NodeNum; ++i) {
         shortPath[i] = (int*)malloc(sizeof(int));
         path[i] = (int*)malloc(sizeof(int));
     }
-    for (int i = 0; i < nodeNum; ++i) {
-        for (int j = 0; j < nodeNum; ++j) {
+    for (int i = 0; i < NodeNum; ++i) {
+        for (int j = 0; j < NodeNum; ++j) {
             if (i == j) {
                 shortPath[i][j] = 0; // 顶点到自身的距离 = 0
             } else {
@@ -142,10 +144,10 @@ void Floyd(node* head){
         }
     }
     int temp;
-    for (int k = 0; k < nodeNum; ++k) { // 中间点
+    for (int k = 0; k < NodeNum; ++k) { // 中间点
         // 固定K为中间路径点，查看i到k和j到k能否形成通路，若能形成通路，再把路径大小与k点加入临时数组
-        for (int i = 0; i < nodeNum; ++i) {
-            for (int j = 0; j < nodeNum; ++j) {
+        for (int i = 0; i < NodeNum; ++i) {
+            for (int j = 0; j < NodeNum; ++j) {
                 temp = (shortPath[i][k] == INF || shortPath[k][j] == INF)? INF : (shortPath[i][k] + shortPath[k][j]); // 判定
                 if (shortPath[i][j] > temp){ // 如果temp比原有路径短就替换
                     shortPath[i][j] = temp;
@@ -154,8 +156,8 @@ void Floyd(node* head){
             }
         }
     }
-//    for (int i = 0; i < nodeNum; ++i) { // 输出结果
-//        for (int j =i+1; j < nodeNum; ++j) {
+//    for (int i = 0; i < NodeNum; ++i) { // 输出结果
+//        for (int j =i+1; j < NodeNum; ++j) {
 //            if (shortPath[i][j] < INF) {
 //                printf("%s->%s:%d \n  road: ",getNode(head,i)->name,getNode(head,j)->name,shortPath[i][j]); // 获取i点到j点的最短路径
 //            }
@@ -165,7 +167,7 @@ void Floyd(node* head){
 //    }
 }
 
-void printShortPath(node*head,node* star,node* end){
+void printShortPath(Node*head,Node* star,Node* end){
     int i = star->mainId,j = end ->mainId;
     if (shortPath[i][j] < INF) {
         printf("%s->%s:%d   road: ", star->name, end->name, shortPath[i][j]); // 获取i点到j点的最短路径

@@ -4,16 +4,16 @@
 
 #ifndef PACKAG_LINKLIST_H
 #define PACKAG_LINKLIST_H
-#include <cstdio>
-#include <cstdlib>
+#include <stdio.h>
+#include <stdlib.h>
 
 //数据定义
 typedef char* dataType;
 
 //结构体
-typedef struct LinkList {
+typedef struct List {
     char* data;
-    struct LinkList *next;
+    struct List *next;
 
 } List;
 
@@ -80,8 +80,9 @@ List *insert(List *head, int location, dataType i) {
 //尾部添加
 List *push(List *head, dataType i) {
     if (head == NULL) {
-        head = (List *) malloc(sizeof(List));
-        head->data = i;
+        head = (List *)malloc(sizeof(List));
+        head->data = malloc(strlen(i));
+        strcpy(head->data,i);
         head->next = NULL;
         return head;
     }
@@ -91,7 +92,8 @@ List *push(List *head, dataType i) {
     }
     List *q = (List *) malloc(sizeof(List));
     q->next = NULL;
-    q->data = i;
+    q->data = malloc(strlen(i));
+    strcpy(q->data,i);
     p->next = q;
     return head;
 }
