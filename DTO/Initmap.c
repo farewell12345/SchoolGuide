@@ -2,7 +2,7 @@
 // Created by Administrator on 2020/12/2.
 //
 #include <string.h>
-#include "toolsFunction.h"
+#include "../ToolFunction/toolsFunction.h"
 Node* initNode(Node* p){
     p->firstEdge = NULL;
     p->right = p->left = NULL;

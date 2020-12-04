@@ -1,7 +1,7 @@
 #include <stdio.h>
-#include "Initmap.h"
-#include "toolsFunction.h"
-#include "readExcel.h"
+#include "DTO/Initmap.h"
+#include "ToolFunction/toolsFunction.h"
+#include "ReadIndex/readExcel.h"
 int NodeNum = 0;
 int main(int argc, char *argv[]){
     Node *head = NULL;

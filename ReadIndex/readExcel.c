@@ -2,7 +2,7 @@
 // Created by Administrator on 2020/12/3.
 //
 #include "readExcel.h"
-#include "LinkList.h"
+#include "../List/LinkList.h"
 List* split(char* tab){
     char* parent = malloc(strlen(tab));
     strcpy(parent,tab);

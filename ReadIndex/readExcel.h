@@ -4,11 +4,11 @@
 
 #ifndef CLASS_PROTECT_READEXCEL_H
 #define CLASS_PROTECT_READEXCEL_H
-#include "DTO.h"
-#include "Initmap.h"
+#include "../DTO/DTO.h"
+#include "../DTO/Initmap.h"
 #include <string.h>
 
-#include "toolsFunction.h"
+#include "../ToolFunction/toolsFunction.h"
 Node* readExcel();
 Node* readRemote(Node* head);
 #endif //CLASS_PROTECT_READEXCEL_H

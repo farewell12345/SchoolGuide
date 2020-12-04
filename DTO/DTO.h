@@ -7,8 +7,7 @@
 #define CLASS_PROTECT_DTO_H
 #include <malloc.h>
 #include <limits.h>
-#define PATH "F://Program//Clion-Protect//class_protect//place.csv"
-#define REMOTEPATH "F://Program//Clion-Protect//class_protect//reomte.csv"
+#include "../config.h"
 #define newEdge (Edge*)malloc(sizeof(Edge))
 #define bool int
 #define true 1

@@ -4,7 +4,7 @@
 
 #ifndef CLASS_PROTECT_TOOLSFUNCTION_H
 #define CLASS_PROTECT_TOOLSFUNCTION_H
-#include "DTO.h"
+#include "../DTO/DTO.h"
 #include <stdio.h>
 extern int NodeNum;
 
