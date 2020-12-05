@@ -12,14 +12,13 @@ typedef char* dataType;
 
 //结构体
 typedef struct List {
-    char* data;
+    char *data;
     struct List *next;
-
 } List;
 
 //初始化
 List *init() {
-    return NULL;
+    return malloc(sizeof(List));
 }
 
 //是否为空
@@ -66,7 +65,7 @@ List *insert(List *head, int location, dataType i) {
         printf("找不到你想插入的位置。\nLocation Not Found\n");
     }
     p = (List *) malloc(sizeof(List));
-    p->data = i;
+    strcpy(p->data,i);
     if (location == 0) {
         p->next = head;
         head = p;
@@ -78,23 +77,17 @@ List *insert(List *head, int location, dataType i) {
 }
 
 //尾部添加
-List *push(List *head, dataType i) {
+List *push(List *head, List* i) {
     if (head == NULL) {
-        head = (List *)malloc(sizeof(List));
-        head->data = malloc(strlen(i));
-        strcpy(head->data,i);
-        head->next = NULL;
+        head = i;
         return head;
     }
     List *p = head;
-    while (p->next) {
+    while (p->next!=NULL) {
         p = p->next;
     }
-    List *q = (List *) malloc(sizeof(List));
-    q->next = NULL;
-    q->data = malloc(strlen(i));
-    strcpy(q->data,i);
-    p->next = q;
+    p->next = i;
+    p->next->next = NULL;
     return head;
 }
 
@@ -106,7 +99,7 @@ List *deletes(List *head, dataType i) {
         return head;
     }
     p = head;
-    while (p && p->data != i) {
+    while (p && strcmp(p->data,i)!=0) {
         q = p;
         p = p->next;
     }

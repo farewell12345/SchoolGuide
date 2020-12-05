@@ -4,14 +4,16 @@
 #include "readExcel.h"
 #include "../List/LinkList.h"
 List* split(char* tab){
-    char* parent = malloc(strlen(tab));
+    char* parent = malloc(200);
     strcpy(parent,tab);
-    List* head = init();
-    char* temp = malloc(strlen(tab));
+    List* head = NULL;
     char* token = strtok(parent,",");
     while(token!=NULL){
-        strcpy(temp,token);
-        head = push(head,temp);
+        List* p = init();
+        p->next = NULL;
+        p->data = malloc(sizeof(char)*200);
+        strcpy(p->data,token);
+        head = push(head,p);
         token = strtok(NULL, ",");
     }
     return head;
@@ -45,7 +47,7 @@ Node* readExcel() {
     }
     int readLines = 0;
     while (!feof(fp)){
-        char* tables = malloc(sizeof(char)*200);
+        char tables[200];
         fscanf(fp, "%s", tables);
         fgetc(fp);
         List* list = split(tables);
@@ -54,7 +56,6 @@ Node* readExcel() {
             list = list->next;
         }
         readLines++;
-        free(tables);
     }
     fclose(fp);
     Node **tNode =(Node**)malloc(sizeof(Node*)*line);
@@ -69,15 +70,14 @@ Node* readExcel() {
         tNode[i]->x = atof(table[i][3]);
         tNode[i]->y = atof(table[i][4]);
         tNode[i]->mainId = NodeNum;
-        NodeNum++;
-        InsertNode(head,tNode[i]);
-        head = pushSequenceNode(head,tNode[i]);
-    }
-    for (int i = 0; i < line; ++i) {
-        for (int j = 0; j < 5; ++j) {
-            free(table[i][j]);
+        if (head == NULL){
+            head = tNode[i];
+            continue;
         }
+        InsertNode(head,tNode[i]);
     }
+    head->sequenceNext = NULL;
+    head->sequenceNext = tNode;
     return head;
 }
 Node* readRemote(Node* head){

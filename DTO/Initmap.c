@@ -52,23 +52,15 @@ Node* createMap(Node *p){
     return initNode(p);
 };
 Node* pushSequenceNode(Node* head,Node* sign){
-    if (head == NULL){
-        head = sign;
+    if (NodeNum <= 1){
+        sign->sequenceNext = head->sequenceNext;
+        *head = *sign;
         return head;
     }
-
-    Node* t = head;
-    while(t->sequenceNext!=NULL){
-        t = t->sequenceNext;
-    }
-    t->sequenceNext = sign;
+    head->sequenceNext[NodeNum-2] = sign;
     return head;
 }
 void InsertNode(Node* root,Node* sign){
-    if(root == NULL){
-        root = sign;
-        return;
-    }
     if (root->ID >= sign->ID){
         if(root->left == NULL){
             root->left = sign;

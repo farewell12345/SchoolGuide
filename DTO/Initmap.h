@@ -10,7 +10,7 @@ Node* createMap(Node* );
 Node* initNode(Node*);
 void initEdge(Edge*cur,Node* tail,Node* top,int weight);
 Node* pushSequenceNode(Node* head,Node* sign);
-void InsertNode(Node* root,Node* sign);
+Node * InsertNode(Node* root, Node* sign);
 void setName(Node* root,char* name);
 void setIntroduce(Node* root,char* introduce);
 void setID(Node* root,int ID);

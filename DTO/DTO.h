@@ -33,6 +33,6 @@ typedef struct Node{
     int leftTag;
     struct Node* right;
     int rightTag;
-    struct Node* sequenceNext; // 顺序下一个
+    struct Node** sequenceNext; // 顺序下一个
 }Node;
 #endif //CLASS_PROTECT_DTO_H
