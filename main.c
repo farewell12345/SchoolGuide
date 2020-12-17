@@ -1,47 +1,72 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "DTO/Initmap.h"
 #include "ToolFunction/toolsFunction.h"
 #include "ReadIndex/readExcel.h"
 int NodeNum = 0;
+int **shortPath = NULL;
+int **path = NULL;
+Node *head = NULL;
 int main(){
-    Node *head = NULL;
     head = readExcel();
     frontOrderTrailTree(head);
     head = readRemote(head);
     Floyd(head);
-    printf("æœ€çŸ­è·¯å¾„æ¨¡å‹è®¡ç®—å®Œæ¯•");
     while(1) {
-        printf("\n1.All secene\n"
-               "2.A to B shortest road\n"
-               "0. exit");
+        printf("-----------------------------------\n");
+        printMap(head);
+        printf("-----------------------------------\n");
+        printf("1.µ¼º½\n"
+               "2.»ñÈ¡Ä³¸ö¾°µãµÄ½éÉÜ\n"
+               "0. exit\n");
         int i = 0;
         scanf("%d",&i);
         if (i == 0){
             break;
         }
-        char *star = malloc(200),*end = malloc(200);
+        char *star = malloc(200),*end = malloc(200),*temp_node = malloc(200);
         switch(i){
             case 0:
                 break;
             case 1:
-                printMap(head);
-                break;
-            case 2:
+                printf("ÊäÈëÄãËùÔÚµÄÎ»ÖÃµÄÃû×Ö»òID:\n");
                 scanf("%s",star);
+                printf("ÊäÈëÄ¿±êÎ»ÖÃµÄÃû×Ö»òID:\n");
                 scanf("%s",end);
                 Node *startAddress = searchNodeWithName(head, star);
                 Node *endAddress = searchNodeWithName(head, end);
+                startAddress = startAddress == NULL? searchNodeWithID(head,atoi(star)):startAddress;
+                endAddress = endAddress == NULL? searchNodeWithID(head,atoi(end)):endAddress;
                 if (endAddress != NULL && startAddress != NULL) {
-                    printf("\n%s->%sçš„æœ€çŸ­è·¯å¾„ä¸ºï¼š\n",star,end);
+                    printf("\n%s->%sµÄ×î¶ÌÂ·¾¶Îª£º\n",startAddress->name,endAddress->name);
                     printShortPath(head, startAddress, endAddress);
                 } else {
-                    printf("è¾“å…¥æœ‰è¯¯\n");
+                    printf("ÊäÈëÓĞÎó\n");
                 }
                 break;
-            default:
+            case 2:
+                printf("ÊäÈëÄ¿±êÎ»ÖÃµÄÃû×Ö»òID:\n");
+                scanf("%s",temp_node);
+                Node *temp = searchNodeWithName(head,temp_node);
+                if (temp == NULL){
+                    if (is_number(temp_node) == false) {
+                        printf("²»´æÔÚ´ËµØµã\n");
+                        break;
+                    }
+                    temp = searchNodeWithID(head,atoi(temp_node));
+                    if (temp == NULL){
+                        printf("²»´æÔÚ´ËµØµã\n");
+                        break;
+                    }
+                }
+                if (temp!=NULL){
+                    printf("%s:%s\n",temp->name,temp->introduce);
+                }
                 break;
         }
-
+        printf("°´ÈÎÒâ¼ü¼ÌĞø...");
+        getchar();
+        getchar();
     }
     return 0;
 }

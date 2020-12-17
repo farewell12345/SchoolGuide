@@ -36,7 +36,7 @@ int getLines(int type){
 Node* readExcel() {
     Node* head = NULL;
     int line = getLines(0);
-    FILE* fp = fopen(PATH,"r");     // fp鎸囧悜鏂囦欢澶撮儴
+    FILE* fp = fopen(PATH,"r");     // fp指向文件头部
     fgetc(fp);
     char*** table = (char***)malloc(sizeof(char**)*line);
     for (int i = 0; i < line; ++i) {
@@ -95,6 +95,7 @@ Node* readRemote(Node* head){
     while (!feof(fp)){
         char* tables = malloc(sizeof(char)*200);
         fscanf(fp, "%s", tables);
+
         fgetc(fp);
         List* list = split(tables);
         for (int i = 0; i < 3; ++i) {

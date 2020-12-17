@@ -1,13 +1,28 @@
 //
 // Created by Administrator on 2020/12/2.
 //
-/*çº¿ç´¢åŒ–äºŒå‰æ ‘*/
+/*ÏßË÷»¯¶ş²æÊ÷*/
 #include "toolsFunction.h"
 #include <string.h>
+#include <math.h>
+#define IS_DIGIT(c) ((c) >= '0' && (c) <= '9')
 extern NodeNum;
-int visitedNum = 0;
+extern int **shortPath;
+extern int **path;
 Node *visited[23];
-int **shortPath,**path;
+int visitedNum = 0;
+/* Whether string s is a number.
+   Returns 0 for non-number, 1 for integer, 2 for hex-integer, 3 for float */
+int is_number(char * s)
+{
+    bool flag = true;
+    for (int i = 0; i < strlen(s); ++i) {
+        if(!IS_DIGIT(s[i])){
+            flag = false;
+        }
+    }
+    return flag;
+}
 bool NodeIsVisited(Node* Nodes){
     for (int i = 0; i < visitedNum; ++i) {
         if (visited[i]==Nodes){
@@ -26,12 +41,12 @@ int getWeight(Node* tail,Node* top){
     }
     return INF;
 }
-void getPath(Node *head,int start,int end){ // é€’å½’è¾“å‡ºæ²¿è·¯è·¯å¾„
-    if (start == path[start][end]){ // æ­¤å¤„è¯´æ˜å›åˆ°äº†èµ·ç‚¹ï¼Œåˆ™ç»“æŸé€’å½’ï¼Œä»èµ·ç‚¹å¼€å§‹è¾“å‡ºè·¯å¾„
+void getPath(const Node *head,int start,int end){ // µİ¹éÊä³öÑØÂ·Â·¾¶
+    if (start == path[start][end]){ // ´Ë´¦ËµÃ÷»Øµ½ÁËÆğµã£¬Ôò½áÊøµİ¹é£¬´ÓÆğµã¿ªÊ¼Êä³öÂ·¾¶
         printf("%s->%s->",getNode(head,start)->name,getNode(head,end)->name);
     }else{
-        getPath(head,start,path[start][end]); // ä¸€ç›´å›æº¯æ‰¾ä¸‹å»
-        printf("%s->",getNode(head,end)->name); // åˆ°è¾¾è¿™é‡Œæ—¶è¯´æ˜æ‰¾åˆ°äº†èµ·ç‚¹ï¼Œä»èµ·ç‚¹å¼€å§‹è¾“å‡ºè·¯å¾„
+        getPath(head,start,path[start][end]); // Ò»Ö±»ØËİÕÒÏÂÈ¥
+        printf("%s->",getNode(head,end)->name);
     }
 }
 void dfs(Node* cur) {
@@ -41,48 +56,49 @@ void dfs(Node* cur) {
     Edge *edge = cur->firstEdge;
     while (edge != NULL) {
         if(NodeIsVisited(edge->top) == false) {
-            printf("%s\n", edge->top->name);
+            printf("%s", edge->top->name);
+            for (int i = 0; i < abs(20-strlen(edge->top->name)); ++i) {
+                printf(" ");
+            }
+            printf("|\tID:%d\t|\n",edge->top->ID);
             dfs(edge->top);
         }
         edge = edge->next;
     }
 }
-
-Node *getNode(Node *head, int i){
+Node *getNode(const Node *head, int i){
     return head->sequenceNext[i];
 };
-
 bool equals(char* name1,char* name2){
     return strcmp(name1,name2) == 0? true:false;
 };
-
-Node *prev; // ä¸Šæ¬¡è®¿é—®çš„èŠ‚ç‚¹(å‰é©±èŠ‚ç‚¹ï¼‰
+Node *prev; // ÉÏ´Î·ÃÎÊµÄ½Úµã(Ç°Çı½Úµã£©
 Node * frontOrderTrailTree(Node *head){
     if(head == NULL) return head;
 
-    if(head->left == NULL){ // éµå¾ªå·¦å‰å³å
-        head->left = prev; // å°†ç©ºé—²çš„å·¦èŠ‚ç‚¹æŒ‡å‘å‰é©±èŠ‚ç‚¹
-        head->leftTag = 1; // è¡¨ç¤ºè¿™ä¸ªèŠ‚ç‚¹çš„å·¦æŒ‡é’ˆå·²è¢«çº¿ç´¢åŒ–
+    if(head->left == NULL){ // ×ñÑ­×óÇ°ÓÒºó
+        head->left = prev; // ½«¿ÕÏĞµÄ×ó½ÚµãÖ¸ÏòÇ°Çı½Úµã
+        head->leftTag = 1; // ±íÊ¾Õâ¸ö½ÚµãµÄ×óÖ¸ÕëÒÑ±»ÏßË÷»¯
     }
     if(prev != NULL && prev->right == NULL){
-        prev->right = head; // å°†ç©ºé—²çš„å³èŠ‚ç‚¹æŒ‡å‘åç»§èŠ‚ç‚¹
-        prev ->rightTag = 1;// è¡¨ç¤ºè¿™ä¸ªèŠ‚ç‚¹çš„å³æŒ‡é’ˆå·²è¢«çº¿ç´¢åŒ–
+        prev->right = head; // ½«¿ÕÏĞµÄÓÒ½ÚµãÖ¸Ïòºó¼Ì½Úµã
+        prev ->rightTag = 1;// ±íÊ¾Õâ¸ö½ÚµãµÄÓÒÖ¸ÕëÒÑ±»ÏßË÷»¯
     }
 
-    prev = head; // çº¿ç´¢åŒ–åå°†prevç§»åŠ¨è¿‡æ¥ï¼Œå¼€å§‹å¯»æ‰¾headçš„ä¸‹ä¸€ä¸ªåç»§èŠ‚ç‚¹
-    if(head->leftTag == 0){ // åˆ¤æ–­å½“å‰èŠ‚ç‚¹çš„å·¦èŠ‚ç‚¹æœ‰æ²¡æœ‰çº¿ç´¢åŒ–è¿‡
-        head->left = frontOrderTrailTree(head->left);// æœå¯»å·¦å­æ ‘
+    prev = head; // ÏßË÷»¯ºó½«prevÒÆ¶¯¹ıÀ´£¬¿ªÊ¼Ñ°ÕÒheadµÄÏÂÒ»¸öºó¼Ì½Úµã
+    if(head->leftTag == 0){ // ÅĞ¶Ïµ±Ç°½ÚµãµÄ×ó½ÚµãÓĞÃ»ÓĞÏßË÷»¯¹ı
+        head->left = frontOrderTrailTree(head->left);// ËÑÑ°×ó×ÓÊ÷
     }
     if(head->rightTag == 0){
-        head->right = frontOrderTrailTree(head->right); // æœå¯»å³å­æ ‘
+        head->right = frontOrderTrailTree(head->right); // ËÑÑ°ÓÒ×ÓÊ÷
     }
     return head;
 }
-/*éå†æŸ¥æ‰¾*/
-Node *preOrderTrailTree(Node *head,char *name){
+/*±éÀú²éÕÒ*/
+Node *preOrderTrailTree(const Node *head,char *name){
     Node* cur = head;
-    /*ä¸æ–­æ²¿ç€èŠ‚ç‚¹å¾€ä¸‹éå†ï¼Œç›´åˆ°æ‰€æœ‰èŠ‚ç‚¹å…¨éƒ¨è¢«éå†
-     * çº¿ç´¢åŒ–ä»¥åï¼Œæ ‘çš„æœ€åä¸€ä¸ªèŠ‚ç‚¹çš„å³å­©å­ï¼ˆåç»§èŠ‚ç‚¹ï¼‰ä¸ºNULL*/
+    /*²»¶ÏÑØ×Å½ÚµãÍùÏÂ±éÀú£¬Ö±µ½ËùÓĞ½ÚµãÈ«²¿±»±éÀú
+     * ÏßË÷»¯ÒÔºó£¬Ê÷µÄ×îºóÒ»¸ö½ÚµãµÄÓÒº¢×Ó£¨ºó¼Ì½Úµã£©ÎªNULL*/
     while (cur!=NULL)
     {
         while (cur->leftTag == 0)
@@ -90,36 +106,25 @@ Node *preOrderTrailTree(Node *head,char *name){
             if (equals(name,cur->name)){
                 return cur;
             }
-            cur = cur->left; // æ²¿ç€å·¦å­©å­å‘ä¸‹éå†ç›´åˆ°åº•éƒ¨
+            cur = cur->left; // ÑØ×Å×óº¢×ÓÏòÏÂ±éÀúÖ±µ½µ×²¿
         }
         if (equals(name,cur->name)){
             return cur;
         }
-        cur = cur->right; // æ²¿ç€å³å­©å­å¯»æ‰¾åç»§èŠ‚ç‚¹
+        cur = cur->right; // ÑØ×ÅÓÒº¢×ÓÑ°ÕÒºó¼Ì½Úµã
     }
-    free(cur);
     return NULL;
 }
-
-void printMap(Node *head){
+void printMap(const Node *head){
     for (int i = 0; i < NodeNum; ++i) {
-        visited[i]=NULL;
-    }
-    Node* cur = head;
-    /*ä¸æ–­æ²¿ç€èŠ‚ç‚¹å¾€ä¸‹éå†ï¼Œç›´åˆ°æ‰€æœ‰èŠ‚ç‚¹å…¨éƒ¨è¢«éå†
-     * çº¿ç´¢åŒ–ä»¥åï¼Œæ ‘çš„æœ€åä¸€ä¸ªèŠ‚ç‚¹çš„å³å­©å­ï¼ˆåç»§èŠ‚ç‚¹ï¼‰ä¸ºNULL*/
-    while (cur!=NULL)
-    {
-        while (cur->leftTag == 0)
-        {
-            dfs(cur);
-            cur = cur->left; // æ²¿ç€å·¦å­©å­å‘ä¸‹éå†ç›´åˆ°åº•éƒ¨
+        printf("%s", head->sequenceNext[i]->name);
+        for (int j = 0; j < abs(20-strlen(head->sequenceNext[i]->name)); ++j) {
+            printf(" ");
         }
-        dfs(cur);
-        cur = cur->right; // æ²¿ç€å³å­©å­å¯»æ‰¾åç»§èŠ‚ç‚¹
+        printf("|\tID:%d\t|\n",head->sequenceNext[i]->ID);
     }
-};
 
+};
 void Floyd(Node* head) {
     shortPath = (int **) malloc(sizeof(int *) * NodeNum);
     path = (int **) malloc(sizeof(int *) * NodeNum);
@@ -130,34 +135,39 @@ void Floyd(Node* head) {
     for (int i = 0; i < NodeNum; ++i) {
         for (int j = 0; j < NodeNum; ++j) {
             if (i == j) {
-                shortPath[i][j] = 0; // é¡¶ç‚¹åˆ°è‡ªèº«çš„è·ç¦» = 0
+                shortPath[i][j] = 0; // ¶¥µãµ½×ÔÉíµÄ¾àÀë = 0
             } else {
-                shortPath[i][j] = getWeight(getNode(head, i), getNode(head, j)); // è®²iç‚¹åˆ°jç‚¹çš„è·ç¦»æƒå€¼å­˜å…¥æ•°ç»„
+                shortPath[i][j] = getWeight(getNode(head, i), getNode(head, j)); // ½²iµãµ½jµãµÄ¾àÀëÈ¨Öµ´æÈëÊı×é
             }
-            path[i][j] = i; // æ­¤æ—¶i->jç»è¿‡ i
+            path[i][j] = i; // ´ËÊ±i->j¾­¹ı i
         }
     }
 
     int temp;
-    for (int k = 0; k < NodeNum; ++k) { // ä¸­é—´ç‚¹
-        // å›ºå®šKä¸ºä¸­é—´è·¯å¾„ç‚¹ï¼ŒæŸ¥çœ‹iåˆ°kå’Œjåˆ°kèƒ½å¦å½¢æˆé€šè·¯ï¼Œè‹¥èƒ½å½¢æˆé€šè·¯ï¼Œå†æŠŠè·¯å¾„å¤§å°ä¸kç‚¹åŠ å…¥ä¸´æ—¶æ•°ç»„
+    for (int k = 0; k < NodeNum; ++k) { // ÖĞ¼äµã
+        // ¹Ì¶¨KÎªÖĞ¼äÂ·¾¶µã£¬²é¿´iµ½kºÍjµ½kÄÜ·ñĞÎ³ÉÍ¨Â·£¬ÈôÄÜĞÎ³ÉÍ¨Â·£¬ÔÙ°ÑÂ·¾¶´óĞ¡Óëkµã¼ÓÈëÁÙÊ±Êı×é
         for (int i = 0; i < NodeNum; ++i) {
             for (int j = 0; j < NodeNum; ++j) {
-                temp = (shortPath[i][k] == INF || shortPath[k][j] == INF) ? INF : (shortPath[i][k] + shortPath[k][j]); // åˆ¤å®š
-                if (shortPath[i][j] > temp) { // å¦‚æœtempæ¯”åŸæœ‰è·¯å¾„çŸ­å°±æ›¿æ¢
+                temp = (shortPath[i][k] == INF || shortPath[k][j] == INF) ? INF : (shortPath[i][k] + shortPath[k][j]); // ÅĞ¶¨
+                if (shortPath[i][j] > temp) { // Èç¹ûtemp±ÈÔ­ÓĞÂ·¾¶¶Ì¾ÍÌæ»»
                     shortPath[i][j] = temp;
-                    path[i][j] = path[k][j]; // æŠŠKç‚¹åŠ å…¥è·¯å¾„
+                    path[i][j] = path[k][j]; // °ÑKµã¼ÓÈëÂ·¾¶
                 }
             }
         }
     }
 }
-
-void printShortPath(Node*head,Node* star,Node* end){
+void printShortPath(const Node*head,Node* star,Node* end){
     int i = star->mainId-1,j = end ->mainId-1;
+    printf("%d,%d",i,j);
     if (shortPath[i][j] < INF) {
-        printf("%s->%s:%d   road: ", star->name, end->name, shortPath[i][j]); // è·å–iç‚¹åˆ°jç‚¹çš„æœ€çŸ­è·¯å¾„
+        printf("%s",star->name);
+        printf("%s",end->name);
+        printf(":%d\nÂ·¾¶: ", shortPath[i][j]); // »ñÈ¡iµãµ½jµãµÄ×î¶ÌÂ·¾¶
+    }else {
+        printf("Á½µØÔİÊ±ÎŞ·¨Ö±½Óµ½´ï");
+        return;
     }
-    getPath(head,i,j); // è¾“å‡ºiç‚¹åˆ°jç‚¹çš„è·¯å¾„
+    getPath(head,i,j); // Êä³öiµãµ½jµãµÄÂ·¾¶
     printf("\n");
 };

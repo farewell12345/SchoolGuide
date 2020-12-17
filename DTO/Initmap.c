@@ -33,7 +33,7 @@ void remoteNode(Node* tail,Node* top,int weight){
     Edge* temp = newEdge;
     initEdge(temp,tail,top,weight);
     cur->next = temp;
-    // 鏃犲悜鍥剧浜屾杩炴帴
+    // 无向图第二次连接
     cur = top->firstEdge;
     if (cur == NULL){
         cur = newEdge;
@@ -75,7 +75,7 @@ void InsertNode(Node* root,Node* sign){
         InsertNode(root->right,sign);
     }
 };
-Node* searchNodeWithID(Node* root,int ID){
+Node* searchNodeWithID(const Node* root,int ID){
     if (root == NULL || root->ID == ID){
         return root;
     }
@@ -86,7 +86,7 @@ Node* searchNodeWithID(Node* root,int ID){
     }
 };
 
-Node* searchNodeWithName(Node* root,char* name){
+Node* searchNodeWithName(const Node* root,char* name){
     Node *p = preOrderTrailTree(root,name);
     return p;
 };

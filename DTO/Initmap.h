@@ -14,8 +14,8 @@ Node * InsertNode(Node* root, Node* sign);
 void setName(Node* root,char* name);
 void setIntroduce(Node* root,char* introduce);
 void setID(Node* root,int ID);
-Node* searchNodeWithID(Node* root,int ID);
+Node* searchNodeWithID(const Node* root,int ID);
 
-Node* searchNodeWithName(Node* root,char* name);
+Node* searchNodeWithName(const Node* root,char* name);
 void remoteNode(Node* tail,Node* top,int);
 #endif //CLASS_PROTECT_INITMAP_H

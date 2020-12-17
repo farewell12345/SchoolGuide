@@ -13,26 +13,29 @@
 #define true 1
 #define false 0
 #define INF INT_MAX
+
+
 struct Node;
 struct Edge;
 extern int NodeNum;
 typedef struct Edge{
       int weight;
-      struct Node* top,*tail; // å®šä¹‰å¼§å¤´ï¼Œå¼§å°¾çš„é¡¶ç‚¹
+      struct Node* top,*tail; // ¶¨Òå»¡Í·£¬»¡Î²µÄ¶¥µã
       struct Edge * next;
 }Edge;
 
 typedef struct Node{
-    int mainId; // å¿«é€Ÿç´¢å¼•ID
-    char name[50]; // æ™¯ç‚¹åç§°
-    int ID; // ä»£å·
-    char introduce[200]; // ä»‹ç»
-    double x,y; // åœ¨çª—å£ä¸­çš„åæ ‡
-    Edge* firstEdge; // é‚»æ¥è¡¨é¦–è¾¹
-    struct Node* left; // æ ¹æ®IDåºå·æ„å»ºäºŒå‰æ’åºæ ‘
+    int mainId; // ¿ìËÙË÷ÒıID
+    char name[50]; // ¾°µãÃû³Æ
+    int ID; // ´úºÅ
+    char introduce[200]; // ½éÉÜ
+    double x,y; // ÔÚ´°¿ÚÖĞµÄ×ø±ê
+    Edge* firstEdge; // ÁÚ½Ó±íÊ×±ß
+    struct Node* left; // ¸ù¾İIDĞòºÅ¹¹½¨¶ş²æÅÅĞòÊ÷
     int leftTag;
     struct Node* right;
     int rightTag;
-    struct Node** sequenceNext; // é¡ºåºä¸‹ä¸€ä¸ª
+    struct Node** sequenceNext; // Ë³ĞòÏÂÒ»¸ö
 }Node;
+
 #endif //CLASS_PROTECT_DTO_H

@@ -7,29 +7,29 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//æ•°æ®å®šä¹‰
+//Êı¾İ¶¨Òå
 typedef char* dataType;
 
-//ç»“æ„ä½“
+//½á¹¹Ìå
 typedef struct List {
     char *data;
     struct List *next;
 } List;
 
-//åˆå§‹åŒ–
+//³õÊ¼»¯
 List *init() {
     return malloc(sizeof(List));
 }
 
-//æ˜¯å¦ä¸ºç©º
+//ÊÇ·ñÎª¿Õ
 int isEmpty(List *head) {
     return (!head) ? 0 : 1;
 }
 
-//è¾“å‡º
+//Êä³ö
 void display(List *head) {
     if (!isEmpty(head)) {
-        printf("ç©ºçš„ï¼\n Is Empty!");
+        printf("¿ÕµÄ£¡\n Is Empty!");
         return;
     }
     List *p = head;
@@ -40,10 +40,10 @@ void display(List *head) {
     printf("\n");
 }
 
-//æŸ¥æ‰¾
+//²éÕÒ
 List *find(List *head, int location) {
     if (!isEmpty(head)) {
-        printf("ç©ºçš„ï¼\n Is Empty!");
+        printf("¿ÕµÄ£¡\n Is Empty!");
         return NULL;
     }
     if (location < 1)
@@ -57,12 +57,12 @@ List *find(List *head, int location) {
     return p;
 }
 
-//æ·»åŠ 
+//Ìí¼Ó
 List *insert(List *head, int location, dataType i) {
     List *p, *q;
     q = find(head, location);
     if (!q && location >= 1) {
-        printf("æ‰¾ä¸åˆ°ä½ æƒ³æ’å…¥çš„ä½ç½®ã€‚\nLocation Not Found\n");
+        printf("ÕÒ²»µ½ÄãÏë²åÈëµÄÎ»ÖÃ¡£\nLocation Not Found\n");
     }
     p = (List *) malloc(sizeof(List));
     strcpy(p->data,i);
@@ -76,7 +76,7 @@ List *insert(List *head, int location, dataType i) {
     return head;
 }
 
-//å°¾éƒ¨æ·»åŠ 
+//Î²²¿Ìí¼Ó
 List *push(List *head, List* i) {
     if (head == NULL) {
         head = i;
@@ -91,11 +91,11 @@ List *push(List *head, List* i) {
     return head;
 }
 
-//åˆ é™¤
+//É¾³ı
 List *deletes(List *head, dataType i) {
     List *p, *q = NULL;
     if (!isEmpty(head)) {
-        printf("ç©ºçš„ï¼\n Is Empty!");
+        printf("¿ÕµÄ£¡\n Is Empty!");
         return head;
     }
     p = head;
@@ -116,7 +116,7 @@ List *deletes(List *head, dataType i) {
 //3.2
 void Num(List *head) {
     if (!isEmpty(head)) {
-        printf("ç©ºçš„ï¼\n Is Empty!");
+        printf("¿ÕµÄ£¡\n Is Empty!");
         return;
     }
     List *p = head;
@@ -125,14 +125,14 @@ void Num(List *head) {
         ++i;
         p = p->next;
     }
-    printf("ä¸€å…±æœ‰%dä¸ªç»“ç‚¹\nTotal Node has %d", i, i);
+    printf("Ò»¹²ÓĞ%d¸ö½áµã\nTotal Node has %d", i, i);
 }
 
 //3.5
 /*
  * return
- * -2 é“¾è¡¨ä¸ºç©º
- * -1 æ— åº
- *  1 æœ‰åº
+ * -2 Á´±íÎª¿Õ
+ * -1 ÎŞĞò
+ *  1 ÓĞĞò
  */
 #endif //PACKAG_LINKLIST_H
