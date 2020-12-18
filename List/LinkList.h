@@ -6,9 +6,9 @@
 #define PACKAG_LINKLIST_H
 #include <stdio.h>
 #include <stdlib.h>
-
 //数据定义
 typedef char* dataType;
+
 
 //结构体
 typedef struct List {

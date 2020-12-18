@@ -7,6 +7,7 @@
 #define CLASS_PROTECT_DTO_H
 #include <malloc.h>
 #include <limits.h>
+#include <stdio.h>
 #include "../config.h"
 #define newEdge (Edge*)malloc(sizeof(Edge))
 #define bool int
@@ -38,4 +39,21 @@ typedef struct Node{
     struct Node** sequenceNext; // Ë³ÐòÏÂÒ»¸ö
 }Node;
 
+typedef struct stack{
+    Node *data;
+    struct stack* next;
+}stackNode;
+
+typedef struct{
+    struct stack* top;
+}Stack;
+Stack *createStack();
+Stack* pushStack(Stack*head,stackNode *p);
+stackNode *popStack(Stack*head);
+stackNode *getTopStack(Stack*head);
+stackNode *initStackNode(Node*p);
+bool StackIsEmpty(Stack*head);
+bool NodeInStack(Stack* head,Node* p);
+void printStack(Stack*head);
+void printAllPath(Node *star,Node* end);
 #endif //CLASS_PROTECT_DTO_H

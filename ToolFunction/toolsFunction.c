@@ -5,6 +5,7 @@
 #include "toolsFunction.h"
 #include <string.h>
 #include <math.h>
+
 #define IS_DIGIT(c) ((c) >= '0' && (c) <= '9')
 extern NodeNum;
 extern int **shortPath;

@@ -13,13 +13,11 @@
  *   1. 向csv中手动录入数据，解析csv中的数据（csv解析算法）
  *   2. 计算整张图中各点之间的最短路径（Floyd算法）
  *   3. 输入所处位置和目的地，输出两点之间的最短路径（Floyd算法解析路径向量和距离向量）
- *   4. 输出对应景点的介绍（前序线索二叉搜索树）
+ *   4. 输出对应景点的信息（前序线索二叉搜索树）
  * 本项目所属仓库：
  *   https://github.com/farewell12345/SchoolGuide
  * **/
-#include <stdio.h>
 #include <stdlib.h>
-#include "DTO/Initmap.h"
 #include "ToolFunction/toolsFunction.h"
 #include "ReadIndex/readExcel.h"
 int NodeNum = 0;
@@ -31,13 +29,31 @@ int main(){
     frontOrderTrailTree(head);
     head = readRemote(head);
     Floyd(head);
+
+    Node* p[8];
+    for (int i = 0; i < 8; ++i) {
+        p[i] = malloc(sizeof(Node));
+        p[i]->name[0] = ('A'+i);
+        p[i]->ID = p[i]->mainId = i;
+    }
+    remoteNode(p[0],p[1],2);
+    remoteNode(p[0],p[2],2);
+    remoteNode(p[1],p[3],2);
+    remoteNode(p[2],p[3],2);
+    remoteNode(p[3],p[4],2);
+    remoteNode(p[3],p[5],2);
+    remoteNode(p[4],p[6],2);
+    remoteNode(p[4],p[7],2);
+    remoteNode(p[5],p[6],2);
+    remoteNode(p[5],p[7],2);
     while(1) {
         printf("-----------------------------------\n");
         printMap(head);
         printf("-----------------------------------\n");
         printf("1.导航\n"
-               "2.获取某个景点的介绍\n"
-               "3.途径多个景点的最佳路径"
+               "2.查询某个景点\n"
+               "3.途径多个景点的最佳路径\n"
+               "4.两个景点之间的所有路径\n"
                "0. exit\n");
         int i = 0;
         scanf("%d",&i);
@@ -84,7 +100,21 @@ int main(){
                 }
                 break;
             case 3:
-
+                printf("输入起点:\n");
+                scanf("%s",star);
+                printf("输入终点:\n");
+                scanf("%s",end);
+                printf("输入途径景点,输入-1结束\n");
+                
+                printf("\n");
+                break;
+            case 4:
+                printf("输入起点:\n");
+                scanf("%s",star);
+                printf("输入终点:\n");
+                scanf("%s",end);
+                printAllPath(searchNodeWithName(head,star),searchNodeWithName(head,end));
+                break;
         }
         printf("按任意键继续...");
         getchar();
