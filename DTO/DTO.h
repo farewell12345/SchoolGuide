@@ -47,13 +47,18 @@ typedef struct stack{
 typedef struct{
     struct stack* top;
 }Stack;
+
+
 Stack *createStack();
 Stack* pushStack(Stack*head,stackNode *p);
+Stack* reverseStack(Stack* p);
 stackNode *popStack(Stack*head);
 stackNode *getTopStack(Stack*head);
 stackNode *initStackNode(Node*p);
 bool StackIsEmpty(Stack*head);
 bool NodeInStack(Stack* head,Node* p);
+bool StackIsFull(Stack* head,int MAXSIZE);
 void printStack(Stack*head);
 void printAllPath(Node *star,Node* end);
+
 #endif //CLASS_PROTECT_DTO_H

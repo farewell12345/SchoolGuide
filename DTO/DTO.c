@@ -26,6 +26,9 @@ stackNode *popStack(Stack*head){
     stackNode *p = head->top;
     head->top = head->top->next;
     p->next = NULL;
+    if(head->top == NULL){
+        printf("ÒÑ¾­¿ÕÁË");
+    }
     return p;
 }
 stackNode *getTopStack(Stack*head){
@@ -39,7 +42,7 @@ stackNode *initStackNode(Node*p){
     return q;
 }
 bool StackIsEmpty(Stack*head){
-    return head->top==NULL;
+    return head->top==NULL?true:false;
 }
 bool NodeInStack(Stack* head,Node* p){
     stackNode * t = head->top;
@@ -51,6 +54,23 @@ bool NodeInStack(Stack* head,Node* p){
     }
     return false;
 }
+bool StackIsFull(Stack* head,int MAXSIZE){
+    stackNode*p = getTopStack(head);
+    int num = 0;
+    while(p!=NULL){
+        num++;
+        p = p->next;
+    }
+    return num>=MAXSIZE;
+}
+Stack* reverseStack(Stack* p){
+    Stack *temp = createStack();
+    while(!StackIsEmpty(p)){
+        pushStack(temp,popStack(p));
+    }
+    free(p);
+    return temp;
+}
 void printStack(Stack*head){
     stackNode * t = head->top;
     Stack *temp = createStack();
@@ -59,7 +79,9 @@ void printStack(Stack*head){
         t = t->next;
     }
     while(!StackIsEmpty(temp)){
+        stackNode* p = popStack(temp);
         printf("%s->",p->data->name);
+        free(p);
     }
     printf("\n");
 }

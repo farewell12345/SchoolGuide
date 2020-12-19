@@ -29,23 +29,6 @@ int main(){
     frontOrderTrailTree(head);
     head = readRemote(head);
     Floyd(head);
-
-    Node* p[8];
-    for (int i = 0; i < 8; ++i) {
-        p[i] = malloc(sizeof(Node));
-        p[i]->name[0] = ('A'+i);
-        p[i]->ID = p[i]->mainId = i;
-    }
-    remoteNode(p[0],p[1],2);
-    remoteNode(p[0],p[2],2);
-    remoteNode(p[1],p[3],2);
-    remoteNode(p[2],p[3],2);
-    remoteNode(p[3],p[4],2);
-    remoteNode(p[3],p[5],2);
-    remoteNode(p[4],p[6],2);
-    remoteNode(p[4],p[7],2);
-    remoteNode(p[5],p[6],2);
-    remoteNode(p[5],p[7],2);
     while(1) {
         printf("-----------------------------------\n");
         printMap(head);
@@ -105,8 +88,38 @@ int main(){
                 printf("输入终点:\n");
                 scanf("%s",end);
                 printf("输入途径景点,输入-1结束\n");
-                
-                printf("\n");
+                Node** passingNode = malloc(sizeof(Node*)*NodeNum);
+                startAddress = searchNodeWithName(head,star);
+                endAddress = searchNodeWithName(head,end);
+                passingNode[0] = startAddress;
+                int passingNum = 1;
+                scanf("%s",temp_node);
+                while (strcmp(temp_node,"-1") != 0){
+                    temp = searchNodeWithName(head,temp_node);
+                    if (temp != NULL){
+                        passingNode[passingNum] = malloc(sizeof(Node));
+                        passingNode[passingNum]->ID = temp->ID;
+                        passingNode[passingNum++]->mainId = temp->mainId;
+                    }else{
+                        printf("没有找到这个结点，请重新输入\n");
+                    }
+                    scanf("%s", temp_node);
+                }
+                passingNode[passingNum] = endAddress;
+                Stack * t = createShortedMap(passingNode,passingNum);
+                while (StackIsEmpty(t) == false){
+                    stackNode* now = popStack(t),*next = getTopStack(t);
+                    startAddress = searchNodeWithID(head,now->data->ID);
+                    endAddress = searchNodeWithID(head,next->data->ID);
+                    printShortPath(head,startAddress,endAddress);
+                    if(next->next == NULL){
+                        break;
+                    }
+                }
+                free(t);
+                for (int j = 0; j < passingNum; ++j) {
+                    free(passingNode[j]);
+                }
                 break;
             case 4:
                 printf("输入起点:\n");

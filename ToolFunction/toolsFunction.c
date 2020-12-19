@@ -124,7 +124,6 @@ void printMap(const Node *head){
         }
         printf("|\tID:%d\t|\n",head->sequenceNext[i]->ID);
     }
-
 };
 void Floyd(Node* head) {
     shortPath = (int **) malloc(sizeof(int *) * NodeNum);
@@ -160,11 +159,10 @@ void Floyd(Node* head) {
 }
 void printShortPath(const Node*head,Node* star,Node* end){
     int i = star->mainId-1,j = end ->mainId-1;
-    printf("%d,%d",i,j);
     if (shortPath[i][j] < INF) {
-        printf("%s",star->name);
+        printf("%s->",star->name);
         printf("%s",end->name);
-        printf(":%d\n路径: ", shortPath[i][j]); // 获取i点到j点的最短路径
+        printf(":%dM\n路径: ", shortPath[i][j]); // 获取i点到j点的最短路径
     }else {
         printf("两地暂时无法直接到达");
         return;
@@ -172,3 +170,29 @@ void printShortPath(const Node*head,Node* star,Node* end){
     getPath(head,i,j); // 输出i点到j点的路径
     printf("\n");
 };
+int getShortPath(Node* star,Node* end){
+    return shortPath[star->mainId-1][end->mainId-1];
+}
+Stack * createShortedMap(Node** root,int NodeSize){
+    Stack* vector = createStack();
+    pushStack(vector,initStackNode(root[0]));
+    printf("共有%d节点\n",NodeSize);
+    while(!StackIsFull(vector,NodeSize)){
+        stackNode * top = getTopStack(vector);
+        Node * min = root[1];
+        for (int j = 1; j < NodeSize; ++j) {
+            if (!NodeInStack(vector,root[j])){
+                if(min == NULL){
+                    min = root[j];
+                    continue;
+                }
+                if(getShortPath(top->data,root[j]) < getShortPath(top->data,min)){
+                    min = root[j];
+                }
+            }
+        }
+        pushStack(vector,initStackNode(min));
+    }
+    pushStack(vector,initStackNode(root[NodeSize]));
+    return reverseStack(vector);
+}

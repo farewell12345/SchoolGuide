@@ -15,5 +15,6 @@ Node * frontOrderTrailTree(Node *head);
 void printMap(const Node *head);
 Node *getNode(const Node *head, int i);
 void Floyd(Node *head);
+Stack * createShortedMap(Node** root,int);
 void printShortPath(const Node* head,Node* star,Node* end);
 #endif //CLASS_PROTECT_TOOLSFUNCTION_H
