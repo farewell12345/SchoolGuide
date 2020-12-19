@@ -13,7 +13,7 @@
 #define bool int
 #define true 1
 #define false 0
-#define INF INT_MAX
+#define INF INT_MAX //两点之间无穷大
 
 
 struct Node;

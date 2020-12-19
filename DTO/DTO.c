@@ -6,11 +6,13 @@
 // Created by Administrator on 2020/12/17.
 //
 #include "DTO.h"
+/**创建栈/
 Stack *createStack(){
     Stack *p = (Stack*)malloc(sizeof(Stack));
     p->top = NULL;
     return p;
 };
+/*压栈*/
 Stack* pushStack(Stack* head,stackNode* node){
     stackNode *p = node;
     if(head->top == NULL){
@@ -22,25 +24,29 @@ Stack* pushStack(Stack* head,stackNode* node){
     }
     return head;
 }
+/*弹栈*/
 stackNode *popStack(Stack*head){
     stackNode *p = head->top;
     head->top = head->top->next;
     p->next = NULL;
     return p;
 }
+/*获取栈顶元素，不弹栈*/
 stackNode *getTopStack(Stack*head){
     return head->top;
 }
-
+/*初始化栈元素（封装结点）*/
 stackNode *initStackNode(Node*p){
     stackNode *q =(stackNode*) malloc(sizeof(stackNode));
     q->data = p;
     q->next=NULL;
     return q;
 }
+/*栈判空*/
 bool StackIsEmpty(Stack*head){
     return head->top==NULL?true:false;
 }
+/*判断结点是否在栈里*/
 bool NodeInStack(Stack* head,Node* p){
     stackNode * t = head->top;
     while (t!=NULL){
@@ -51,6 +57,7 @@ bool NodeInStack(Stack* head,Node* p){
     }
     return false;
 }
+/*判断栈是否满*/
 bool StackIsFull(Stack* head,int MAXSIZE){
     stackNode*p = getTopStack(head);
     int num = 0;
@@ -60,6 +67,7 @@ bool StackIsFull(Stack* head,int MAXSIZE){
     }
     return num>=MAXSIZE;
 }
+/*反转栈*/
 Stack* reverseStack(Stack* p){
     Stack *temp = createStack();
     while(!StackIsEmpty(p)){
@@ -68,6 +76,7 @@ Stack* reverseStack(Stack* p){
     free(p);
     return temp;
 }
+/*打印整个栈（不作任何操作）*/
 void printStack(Stack*head){
     stackNode * t = head->top;
     Stack *temp = createStack();
@@ -82,6 +91,7 @@ void printStack(Stack*head){
     }
     printf("\n");
 }
+/*获取结点的出度*/
 int getNodeSize(Node *star){
     int num = 0;
     Edge *p = star->firstEdge;
@@ -91,7 +101,7 @@ int getNodeSize(Node *star){
     }
     return num;
 }
-
+/*深搜寻找两点之间的所有路径*/
 void DFS(Stack* stack,Node* star,Node *end){
     if (star->ID == end->ID){
         printStack(stack);
@@ -117,6 +127,7 @@ void DFS(Stack* stack,Node* star,Node *end){
     }
     popStack(stack);
 }
+/*输出两点之间的所有路径*/
 void printAllPath(Node *star,Node* end){
     if(star == NULL || end == NULL){
         printf("含有未知地点，请检查输入\n");

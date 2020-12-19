@@ -3,6 +3,7 @@
 //
 #include <string.h>
 #include "../ToolFunction/toolsFunction.h"
+/*初始化结点*/
 Node* initNode(Node* p){
     p->firstEdge = NULL;
     p->right = p->left = NULL;
@@ -13,12 +14,14 @@ Node* initNode(Node* p){
     ++NodeNum;
     return p;
 }
+/*初始化无向边*/
 void initEdge(Edge*cur,Node* tail,Node* top,int weight){
     cur->weight = weight;
     cur->next = NULL;
     cur->tail = tail;
     cur->top = top;
 }
+/*连接两个顶点（无向图）*/
 void remoteNode(Node* tail,Node* top,int weight){
     Edge* cur = tail->firstEdge;
     if (cur == NULL){
@@ -51,6 +54,7 @@ void remoteNode(Node* tail,Node* top,int weight){
 Node* createMap(Node *p){
     return initNode(p);
 };
+/*把结点压入结点顺序表中，顺序表作用：辅助多源最短路径算法*/
 Node* pushSequenceNode(Node* head,Node* sign){
     if (NodeNum <= 1){
         sign->sequenceNext = head->sequenceNext;
@@ -60,6 +64,7 @@ Node* pushSequenceNode(Node* head,Node* sign){
     head->sequenceNext[NodeNum-2] = sign;
     return head;
 }
+/*构建搜索二叉树*/
 void InsertNode(Node* root,Node* sign){
     if (root->ID >= sign->ID){
         if(root->left == NULL){
@@ -75,6 +80,7 @@ void InsertNode(Node* root,Node* sign){
         InsertNode(root->right,sign);
     }
 };
+/*根据ID搜索结点*/
 Node* searchNodeWithID(const Node* root,int ID){
     if (root == NULL || root->ID == ID){
         return root;
@@ -85,19 +91,20 @@ Node* searchNodeWithID(const Node* root,int ID){
         return searchNodeWithID(root->left,ID);
     }
 };
-
+/*根据名字搜索结点*/
 Node* searchNodeWithName(const Node* root,char* name){
     Node *p = preOrderTrailTree(root,name);
     return p;
 };
-
+/*设置结点名字*/
 void setName(Node* root,char* name){
     strcpy(root->name,name);
 };
-
+/*设置结点介绍信息*/
 void setIntroduce(Node* root,char* introduce){
     strcpy(root->introduce,introduce);
 };
+/*设置结点ID*/
 void setID(Node* root,int ID){
     root->ID = ID;
 }
