@@ -26,9 +26,6 @@ stackNode *popStack(Stack*head){
     stackNode *p = head->top;
     head->top = head->top->next;
     p->next = NULL;
-    if(head->top == NULL){
-        printf("“—æ≠ø’¡À");
-    }
     return p;
 }
 stackNode *getTopStack(Stack*head){
