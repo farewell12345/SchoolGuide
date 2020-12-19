@@ -6,14 +6,13 @@
 #include <string.h>
 #include <math.h>
 
-#define IS_DIGIT(c) ((c) >= '0' && (c) <= '9')
-extern NodeNum;
-extern int **shortPath;
-extern int **path;
-Node *visited[23];
-int visitedNum = 0;
-/* Whether string s is a number.
-   Returns 0 for non-number, 1 for integer, 2 for hex-integer, 3 for float */
+#define IS_DIGIT(c) ((c) >= '0' && (c) <= '9') // 宏定义判断一个字符是不是数字
+extern NodeNum; // 全局的结点数
+extern int **shortPath; // 距离向量数组
+extern int **path; // 路径向量数组
+Node *visited[23]; // 访问标记
+int visitedNum = 0; // 已访问的数量
+/* 判断字符串是否为数*/
 int is_number(char * s)
 {
     bool flag = true;
@@ -24,6 +23,7 @@ int is_number(char * s)
     }
     return flag;
 }
+/*判断结点是否被访问过*/
 bool NodeIsVisited(Node* Nodes){
     for (int i = 0; i < visitedNum; ++i) {
         if (visited[i]==Nodes){
@@ -32,6 +32,7 @@ bool NodeIsVisited(Node* Nodes){
     }
     return false;
 }
+/* 获取任意两个结点之间的距离，如果不相连就返回INF（INTMAX）*/
 int getWeight(Node* tail,Node* top){
     Edge *e = tail->firstEdge;
     while(e!=NULL){
@@ -42,6 +43,7 @@ int getWeight(Node* tail,Node* top){
     }
     return INF;
 }
+/*根据路径向量获取两点之间的最短路径并输出*/
 void getPath(const Node *head,int start,int end){ // 递归输出沿路路径
     if (start == path[start][end]){ // 此处说明回到了起点，则结束递归，从起点开始输出路径
         printf("%s->%s->",getNode(head,start)->name,getNode(head,end)->name);
@@ -50,6 +52,7 @@ void getPath(const Node *head,int start,int end){ // 递归输出沿路路径
         printf("%s->",getNode(head,end)->name);
     }
 }
+// 深搜打印景点信息表
 void dfs(Node* cur) {
     if (NodeIsVisited(cur) == true) return;
     visited[visitedNum-1] = cur;
@@ -67,12 +70,15 @@ void dfs(Node* cur) {
         edge = edge->next;
     }
 }
+/*根据主键获取结点*/
 Node *getNode(const Node *head, int i){
     return head->sequenceNext[i];
 };
+/*判断两个字符串是否相同*/
 bool equals(char* name1,char* name2){
     return strcmp(name1,name2) == 0? true:false;
 };
+/*线索化*/
 Node *prev; // 上次访问的节点(前驱节点）
 Node * frontOrderTrailTree(Node *head){
     if(head == NULL) return head;
@@ -116,6 +122,7 @@ Node *preOrderTrailTree(const Node *head,char *name){
     }
     return NULL;
 }
+/*打印景点表*/
 void printMap(const Node *head){
     for (int i = 0; i < NodeNum; ++i) {
         printf("%s", head->sequenceNext[i]->name);
@@ -125,6 +132,7 @@ void printMap(const Node *head){
         printf("|\tID:%d\t|\n",head->sequenceNext[i]->ID);
     }
 };
+/*多源最短路径算法*/
 void Floyd(Node* head) {
     shortPath = (int **) malloc(sizeof(int *) * NodeNum);
     path = (int **) malloc(sizeof(int *) * NodeNum);
@@ -157,6 +165,7 @@ void Floyd(Node* head) {
         }
     }
 }
+/*两点间的最短路径输出*/
 void printShortPath(const Node*head,Node* star,Node* end){
     int i = star->mainId-1,j = end ->mainId-1;
     if (shortPath[i][j] < INF) {
@@ -170,9 +179,11 @@ void printShortPath(const Node*head,Node* star,Node* end){
     getPath(head,i,j); // 输出i点到j点的路径
     printf("\n");
 };
+/*获取两点间的最短路径长度（比如在跑完Floyd以后）*/
 int getShortPath(Node* star,Node* end){
     return shortPath[star->mainId-1][end->mainId-1];
 }
+/*途径多个点的最佳路径计算*/
 Stack * createShortedMap(Node** root,int NodeSize){
     Stack* vector = createStack();
     pushStack(vector,initStackNode(root[0]));

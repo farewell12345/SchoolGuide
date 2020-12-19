@@ -3,6 +3,7 @@
 //
 #include "readExcel.h"
 #include "../List/LinkList.h"
+/*分词算法*/
 List* split(char* tab){
     char* parent = malloc(200);
     strcpy(parent,tab);
@@ -18,6 +19,7 @@ List* split(char* tab){
     }
     return head;
 }
+/*获取总行数*/
 int getLines(int type){
     FILE*fp;
     if(type==0)
@@ -33,6 +35,7 @@ int getLines(int type){
     fclose(fp);
     return line;
 }
+/*读取景点信息*/
 Node* readExcel() {
     Node* head = NULL;
     int line = getLines(0);
@@ -80,6 +83,7 @@ Node* readExcel() {
     head->sequenceNext = tNode;
     return head;
 }
+/*读取连接信息*/
 Node* readRemote(Node* head){
     int line = getLines(1);
     FILE* fp = fopen(REMOTEPATH,"r");
