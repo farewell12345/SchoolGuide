@@ -134,6 +134,7 @@ void printMap(const Node *head){
 };
 /*多源最短路径算法*/
 void Floyd(Node* head) {
+    /*分配空间*/
     shortPath = (int **) malloc(sizeof(int *) * NodeNum);
     path = (int **) malloc(sizeof(int *) * NodeNum);
     for (int i = 0; i < NodeNum; ++i) {

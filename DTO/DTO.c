@@ -6,7 +6,7 @@
 // Created by Administrator on 2020/12/17.
 //
 #include "DTO.h"
-/**创建栈/
+/*创建栈*/
 Stack *createStack(){
     Stack *p = (Stack*)malloc(sizeof(Stack));
     p->top = NULL;

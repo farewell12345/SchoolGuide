@@ -24,10 +24,10 @@ void initEdge(Edge*cur,Node* tail,Node* top,int weight){
 /*连接两个顶点（无向图）*/
 void remoteNode(Node* tail,Node* top,int weight){
     Edge* cur = tail->firstEdge;
-    if (cur == NULL){
+    if (cur == NULL){ // 如果顶点度为0
         cur = newEdge;
-        initEdge(cur,tail,top,weight);
-        tail->firstEdge = cur;
+        initEdge(cur,tail,top,weight); // 初始化无向边
+        tail->firstEdge = cur; // 连接
         return;
     }
     while(cur->next!= NULL){
@@ -35,8 +35,8 @@ void remoteNode(Node* tail,Node* top,int weight){
     }
     Edge* temp = newEdge;
     initEdge(temp,tail,top,weight);
-    cur->next = temp;
-    // 无向图第二次连接
+    cur->next = temp; // 连到最后面
+    // 无向图第二次连接，把起点连入终点的度里面
     cur = top->firstEdge;
     if (cur == NULL){
         cur = newEdge;
@@ -66,7 +66,7 @@ Node* pushSequenceNode(Node* head,Node* sign){
 }
 /*构建搜索二叉树*/
 void InsertNode(Node* root,Node* sign){
-    if (root->ID >= sign->ID){
+    if (root->ID >= sign->ID){ // ID号大的在右，小的在左
         if(root->left == NULL){
             root->left = sign;
             return;
