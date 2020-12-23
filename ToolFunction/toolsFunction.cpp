@@ -47,12 +47,13 @@ int getWeight(Node* tail,Node* top){
     return INF;
 }
 /*根据路径向量获取两点之间的最短路径并输出*/
-void getPath(const Node *head,int start,int end){ // 递归输出沿路路径
+void getPath(Stack* stack,const Node *head,int start,int end){ // 递归输出沿路路径
     if (start == path[start][end]){ // 此处说明回到了起点，则结束递归，从起点开始输出路径
-        printf("%s->%s->",getNode(head,start)->name,getNode(head,end)->name);
+        pushStack(stack,initStackNode(getNode(head,start)));
+        pushStack(stack,initStackNode(getNode(head,end)));
     }else{
-        getPath(head,start,path[start][end]); // 一直回溯找下去
-        printf("%s->",getNode(head,end)->name);
+        getPath(stack,head,start,path[start][end]); // 一直回溯找下去
+        pushStack(stack,initStackNode(getNode(head,end)));
     }
 }
 // 深搜打印景点信息表
@@ -180,10 +181,25 @@ void printShortPath(const Node*head,Node* star,Node* end){
         printf("两地暂时无法直接到达");
         return;
     }
-    getPath(head,i,j); // 输出i点到j点的路径
+    Stack *temp  = createStack();
+    getPath(temp, head,i,j); // 输出i点到j点的路径
+    printStack(temp);
     printf("\n");
+    freeStack(temp);
 };
-/*获取两点间的最短路径长度（比如在跑完Floyd以后）*/
+void freeStack(Stack *head){
+    stackNode * p= popStack(head);
+    while (p!=NULL){
+        if(getTopStack(head)!=NULL) {
+            free(p);
+            p = popStack(head);
+        }else{
+            break;
+        }
+    }
+    free(head);
+}
+/*获取两点间的最短路径长度（在跑完Floyd以后）*/
 int getShortPath(Node* star,Node* end){
     return shortPath[star->mainId-1][end->mainId-1];
 }

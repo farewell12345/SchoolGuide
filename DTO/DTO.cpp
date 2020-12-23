@@ -105,13 +105,13 @@ int getNodeSize(Node *star){
 void DFS(Stack* stack,Node* star,Node *end){
     if (star->ID == end->ID){
         printStack(stack);
-        popStack(stack);
+        free(popStack(stack));
         return;
     }
     Edge* p = star->firstEdge;
     bool *rootVisited =(bool*) malloc(sizeof(bool)*NodeNum);
     if(getNodeSize(star) == 0){
-        popStack(stack);
+        free(popStack(stack));
         return;
     }
     for (int i = 0; i < NodeNum; ++i) {
@@ -125,7 +125,7 @@ void DFS(Stack* stack,Node* star,Node *end){
             DFS(stack,p->top,end);
         }
     }
-    popStack(stack);
+    free(popStack(stack));
 }
 /*输出两点之间的所有路径*/
 void printAllPath(Node *star,Node* end){

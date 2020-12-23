@@ -30,7 +30,7 @@ typedef struct Node{
     char name[50]; // 景点名称
     int ID; // 代号
     char introduce[200]; // 介绍
-    double x,y; // 在窗口中的坐标
+    int x,y; // 在窗口中的坐标
     Edge* firstEdge; // 邻接表首边
     struct Node* left; // 根据ID序号构建二叉排序树
     int leftTag;

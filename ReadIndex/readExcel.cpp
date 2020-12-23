@@ -70,8 +70,8 @@ Node* readExcel() {
         setName(tNode[i],table[i][0]);
         setID(tNode[i],atoi(table[i][1]));
         setIntroduce(tNode[i],table[i][2]);
-        tNode[i]->x = atof(table[i][3]);
-        tNode[i]->y = atof(table[i][4]);
+        tNode[i]->x = atoi(table[i][3]);
+        tNode[i]->y = atoi(table[i][4]);
         tNode[i]->mainId = NodeNum;
         if (head == NULL){
             head = tNode[i];

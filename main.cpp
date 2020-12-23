@@ -21,7 +21,7 @@
  * @repositories:本项目所属仓库：
  *   https://github.com/farewell12345/SchoolGuide
  * **/
-#include <stdlib.h>
+#include <cstdlib>
 #include "ToolFunction/toolsFunction.h"
 #include "ReadIndex/readExcel.h"
 #include "GUI/GUI.h"
@@ -143,6 +143,7 @@ int main(int argc, char** argv){
                     if(next->next == NULL){
                         break;
                     }
+                    free(now);
                 }
                 free(t); // 释放所用到的内存
                 for (int j = 1; j < passingNum - 1; ++j) {
