@@ -3,11 +3,14 @@
 //
 /*线索化二叉树*/
 #include "toolsFunction.h"
-#include <string.h>
-#include <math.h>
-
+#include <cstring>
 #define IS_DIGIT(c) ((c) >= '0' && (c) <= '9') // 宏定义判断一个字符是不是数字
-extern NodeNum; // 全局的结点数
+
+int abs(int c){
+    return c<0? c*-1:c;
+}
+
+// 全局的结点数
 extern int **shortPath; // 距离向量数组
 extern int **path; // 路径向量数组
 Node *visited[23]; // 访问标记
@@ -61,7 +64,7 @@ void dfs(Node* cur) {
     while (edge != NULL) {
         if(NodeIsVisited(edge->top) == false) {
             printf("%s", edge->top->name);
-            for (int i = 0; i < abs(20-strlen(edge->top->name)); ++i) {
+            for (int i = 0; i < (20-strlen(edge->top->name)); ++i) {
                 printf(" ");
             }
             printf("|\tID:%d\t|\n",edge->top->ID);
@@ -103,7 +106,7 @@ Node * frontOrderTrailTree(Node *head){
 }
 /*遍历查找*/
 Node *preOrderTrailTree(const Node *head,char *name){
-    Node* cur = head;
+    Node* cur =(Node*) head;
     /*不断沿着节点往下遍历，直到所有节点全部被遍历
      * 线索化以后，树的最后一个节点的右孩子（后继节点）为NULL*/
     while (cur!=NULL)

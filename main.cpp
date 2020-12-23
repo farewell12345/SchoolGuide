@@ -24,16 +24,18 @@
 #include <stdlib.h>
 #include "ToolFunction/toolsFunction.h"
 #include "ReadIndex/readExcel.h"
+#include "GUI/GUI.h"
 int NodeNum = 0; // 结点总个数
 int **shortPath = NULL; // 距离向量
 int **path = NULL; // 路径向量
 Node *head = NULL; // 图
-int main(){
+int main(int argc, char** argv){
     head = readExcel(); // 读取place.csv读取结点信息，作为邻接表头
     frontOrderTrailTree(head); // 对邻接表的结点进行线索化，加快遍历查找速度
     head = readRemote(head); // 将各个顶点进行连接，生成邻接表
     Floyd(head); // 多源最短路径计算，会生成一个shortPath用来存各顶点之间的距离向量，path存各个顶点的路径向量
-    while(1) {
+    initWindows(argc,argv);
+    while(true) {
         printf("-----------------------------------\n");
         printMap(head); // 打印所有结点的名字和ID
         printf("-----------------------------------\n");
@@ -47,7 +49,12 @@ int main(){
         if (i == 0){
             break;
         }
-        char *star = malloc(200),*end = malloc(200),*temp_node = malloc(200); // 创建三个可能用到的字符串
+        char *star =(char*) malloc(200),*end = (char*)malloc(200),*temp_node =(char*) malloc(200); // 创建三个可能用到的字符串
+        Node *temp = NULL;
+        Node *startAddress = NULL,*endAddress = NULL;
+        Node** passingNode = NULL;
+        Stack * t = NULL;
+        int passingNum = 1; // 途径的景点数
         switch(i){
             case 0: // 退出
                 break;
@@ -56,10 +63,18 @@ int main(){
                 scanf("%s",star);
                 printf("输入目标位置的名字或ID:\n");
                 scanf("%s",end);
-                Node *startAddress = searchNodeWithName(head, star); // 根据名字搜索起点
-                Node *endAddress = searchNodeWithName(head, end); // 根据名字搜索终点
-                startAddress = startAddress == NULL? searchNodeWithID(head,atoi(star)):startAddress; // 根据ID搜索起点
-                endAddress = endAddress == NULL? searchNodeWithID(head,atoi(end)):endAddress; // 根据ID搜索终点
+                startAddress = searchNodeWithName(head, star); // 根据名字搜索起点
+                endAddress = searchNodeWithName(head, end); // 根据名字搜索终点
+                if (startAddress == NULL) {
+                    startAddress = searchNodeWithID(head, atoi(star));
+                } else {
+                    startAddress = startAddress;
+                } // 根据ID搜索起点
+                if (endAddress == NULL) {
+                    endAddress = searchNodeWithID(head, atoi(end));
+                } else {
+                    endAddress = endAddress;
+                } // 根据ID搜索终点
                 if (endAddress != NULL && startAddress != NULL) {
                     printf("\n%s->%s的最短路径为：\n",startAddress->name,endAddress->name);
                     printShortPath(head, startAddress, endAddress); // 输出两点间最短路径
@@ -70,7 +85,7 @@ int main(){
             case 2: // 查询某个结点的所有信息
                 printf("输入目标位置的名字或ID:\n");
                 scanf("%s",temp_node);
-                Node *temp = searchNodeWithName(head,temp_node);// 根据名字搜索起点
+                temp = searchNodeWithName(head,temp_node);// 根据名字搜索起点
                 if (temp == NULL){
                     if (is_number(temp_node) == false) { // 判断这个字符串是不是纯数字
                         printf("不存在此地点\n");
@@ -82,11 +97,7 @@ int main(){
                         break;
                     }
                 }
-                if (temp!=NULL){
-                    printf("%s:(%d):%s\n",temp->name,temp->ID,temp->introduce);
-                }else {
-                    printf("不存在此地点\n");
-                }
+                printf("%s:(%d):%s\n", temp->name, temp->ID, temp->introduce);
                 break;
             case 3: // 输出途径的所有景点的最佳路径
                 printf("输入起点:\n");
@@ -94,7 +105,7 @@ int main(){
                 printf("输入终点:\n");
                 scanf("%s",end);
                 printf("输入途径景点,输入-1结束\n");
-                Node** passingNode = malloc(sizeof(Node*)*NodeNum); // 分配输入数组
+                passingNode =(Node**) malloc(sizeof(Node*)*NodeNum); // 分配输入数组
                 startAddress = searchNodeWithName(head,star); // 搜索起点
                 if (startAddress==NULL){
                     printf("不存在这个景点！请查询景点表确认");
@@ -106,7 +117,7 @@ int main(){
                     break;
                 }
                 passingNode[0] = startAddress; // 起点存进去
-                int passingNum = 1; // 途径的景点数
+
                 scanf("%s",temp_node); // 临时输入景点名
                 while (strcmp(temp_node,"-1") != 0){ // 输入-1退出
                     temp = searchNodeWithName(head,temp_node); // 搜索景点
@@ -114,7 +125,7 @@ int main(){
                         /*这里之所以不直接把途径的景点对应的结点存进数组是因为
                          * 在排序的过程中会修改结点本身的相连性，
                          * 最后会导致原有的结点连接关系变得十分混乱*/
-                        passingNode[passingNum] = malloc(sizeof(Node));
+                        passingNode[passingNum] =(Node*) malloc(sizeof(Node));
                         passingNode[passingNum]->ID = temp->ID; // 为了节省内存开支，只需要景点的ID信息和主键信息即可，后会进行内存释放
                         passingNode[passingNum++]->mainId = temp->mainId;
                     }else{
@@ -123,7 +134,7 @@ int main(){
                     scanf("%s", temp_node);
                 }
                 passingNode[passingNum] = endAddress; // 把终点存进去
-                Stack * t = createShortedMap(passingNode,passingNum); // 选择栈来存放对各个景点以距离为权值排序后的结果
+                t= createShortedMap(passingNode,passingNum); // 选择栈来存放对各个景点以距离为权值排序后的结果
                 while (StackIsEmpty(t) == false){
                     stackNode* now = popStack(t),*next = getTopStack(t);
                     startAddress = searchNodeWithID(head,now->data->ID); // 根据ID搜索
@@ -134,7 +145,7 @@ int main(){
                     }
                 }
                 free(t); // 释放所用到的内存
-                for (int j = 0; j < passingNum; ++j) {
+                for (int j = 1; j < passingNum - 1; ++j) {
                     free(passingNode[j]);
                 }
                 break;

@@ -83,7 +83,7 @@ void InsertNode(Node* root,Node* sign){
 /*根据ID搜索结点*/
 Node* searchNodeWithID(const Node* root,int ID){
     if (root == NULL || root->ID == ID){
-        return root;
+        return (Node*)root;
     }
     if(ID > root->ID){
         return searchNodeWithID(root->right,ID);

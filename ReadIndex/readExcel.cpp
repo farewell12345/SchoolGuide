@@ -5,14 +5,14 @@
 #include "../List/LinkList.h"
 /*·Ö´ÊËã·¨*/
 List* split(char* tab){
-    char* parent = malloc(200);
+    char* parent = (char*)malloc(200);
     strcpy(parent,tab);
     List* head = NULL;
     char* token = strtok(parent,",");
     while(token!=NULL){
         List* p = init();
         p->next = NULL;
-        p->data = malloc(sizeof(char)*200);
+        p->data = (char*)malloc(sizeof(char)*200);
         strcpy(p->data,token);
         head = push(head,p);
         token = strtok(NULL, ",");
@@ -45,7 +45,7 @@ Node* readExcel() {
     for (int i = 0; i < line; ++i) {
         table[i] = (char**)malloc(sizeof(char*)*5);
         for (int j = 0; j < 5; ++j) {
-            table[i][j] = malloc(sizeof(char)*200);
+            table[i][j] = (char*)malloc(sizeof(char)*200);
         }
     }
     int readLines = 0;
@@ -92,12 +92,12 @@ Node* readRemote(Node* head){
     for (int i = 0; i < line; ++i) {
         table[i] = (char**)malloc(sizeof(char*)*3);
         for (int j = 0; j < 3; ++j) {
-            table[i][j] = malloc(sizeof(char)*50);
+            table[i][j] = (char*)malloc(sizeof(char)*50);
         }
     }
     int readLines = 0;
     while (!feof(fp)){
-        char* tables = malloc(sizeof(char)*200);
+        char* tables =(char*) malloc(sizeof(char)*200);
         fscanf(fp, "%s", tables);
 
         fgetc(fp);

@@ -18,7 +18,7 @@ typedef struct List {
 
 //初始化
 List *init() {
-    return malloc(sizeof(List));
+    return (List*)malloc(sizeof(List));
 }
 
 //是否为空

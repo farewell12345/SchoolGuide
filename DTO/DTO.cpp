@@ -109,7 +109,7 @@ void DFS(Stack* stack,Node* star,Node *end){
         return;
     }
     Edge* p = star->firstEdge;
-    bool *rootVisited = malloc(sizeof(bool)*NodeNum);
+    bool *rootVisited =(bool*) malloc(sizeof(bool)*NodeNum);
     if(getNodeSize(star) == 0){
         popStack(stack);
         return;
@@ -136,7 +136,7 @@ void printAllPath(Node *star,Node* end){
     Stack* root = createStack();
     pushStack(root,initStackNode(star));
     Edge* p = star->firstEdge;
-    bool *rootVisited = malloc(sizeof(bool)*NodeNum);
+    bool *rootVisited = (bool *)malloc(sizeof(bool)*NodeNum);
     for (int i = 0; i < NodeNum; ++i) {
         rootVisited[i] = false;
     }
