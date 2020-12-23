@@ -9,7 +9,7 @@
    *TODO:求校园图的关节点(待实现）
    *TODO:提供图中任意景点问路查询，即求任意两个景点之间的所有路径。（已实现）
    *TODO:提供校园图中多个景点的最佳访问路线查询，即求途经这多个景点的最佳路径。（已实现，等待测试）
-   *
+   *TODO:GUI(使用EGE框架）
  * @author：陈昊（https://github.com/farewell12345)、冀鹏宇、李照熙
  * @功能：
  *   1. 向csv中手动录入数据，解析csv中的数据（csv解析算法）
@@ -34,7 +34,7 @@ int main(int argc, char** argv){
     frontOrderTrailTree(head); // 对邻接表的结点进行线索化，加快遍历查找速度
     head = readRemote(head); // 将各个顶点进行连接，生成邻接表
     Floyd(head); // 多源最短路径计算，会生成一个shortPath用来存各顶点之间的距离向量，path存各个顶点的路径向量
-    initWindows(argc,argv);
+    initWindows(head);
     while(true) {
         printf("-----------------------------------\n");
         printMap(head); // 打印所有结点的名字和ID
