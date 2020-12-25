@@ -5,6 +5,7 @@
 //
 // Created by Administrator on 2020/12/17.
 //
+#include <cstring>
 #include "DTO.h"
 /*创建栈*/
 Stack *createStack(){
@@ -13,6 +14,16 @@ Stack *createStack(){
     return p;
 };
 /*压栈*/
+bool stackNodeIsInStack(Stack* head,stackNode* node){
+    stackNode* p = head->top;
+    while(p!=NULL){
+        if (p->data->ID == node->data->ID){
+            return true;
+        }
+        p = p->next;
+    }
+    return false;
+}
 Stack* pushStack(Stack* head,stackNode* node){
     stackNode *p = node;
     if(head->top == NULL){
@@ -50,7 +61,7 @@ bool StackIsEmpty(Stack*head){
 bool NodeInStack(Stack* head,Node* p){
     stackNode * t = head->top;
     while (t!=NULL){
-        if(t->data->ID == p->ID){
+        if(t->data->ID == p->ID || strcmp(t->data->name,p->name) == 0){
             return true;
         }
         t = t->next;
@@ -101,8 +112,18 @@ int getNodeSize(Node *star){
     }
     return num;
 }
+
+int getStackSize(Stack *t){
+    int num = 0;
+    stackNode *temp = getTopStack(t);
+    while (temp!=NULL){
+        ++num;
+        temp = temp->next;
+    }
+    return num;
+}
 /*深搜寻找两点之间的所有路径*/
-void DFS(Stack* stack,Node* star,Node *end){
+void  DFS(Stack* stack,Node* star,Node *end){
     if (star->ID == end->ID){
         printStack(stack);
         free(popStack(stack));

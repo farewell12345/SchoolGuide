@@ -6,8 +6,8 @@
 #ifndef CLASS_PROTECT_DTO_H
 #define CLASS_PROTECT_DTO_H
 #include <malloc.h>
-#include <limits.h>
-#include <stdio.h>
+#include <climits>
+#include <cstdio>
 #include "../config.h"
 #define newEdge (Edge*)malloc(sizeof(Edge))
 #define bool int
@@ -60,5 +60,6 @@ bool NodeInStack(Stack* head,Node* p);
 bool StackIsFull(Stack* head,int MAXSIZE);
 void printStack(Stack*head);
 void printAllPath(Node *star,Node* end);
-
+int getStackSize(Stack *t);
+int getNodeSize(Node *star);
 #endif //CLASS_PROTECT_DTO_H

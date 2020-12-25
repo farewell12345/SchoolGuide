@@ -188,42 +188,56 @@ void printShortPath(const Node*head,Node* star,Node* end){
     freeStack(temp);
 };
 void freeStack(Stack *head){
+    if (head == nullptr)return;
+    if (getTopStack(head) == NULL){
+        return;
+    }
     stackNode * p= popStack(head);
-    while (p!=NULL){
-        if(getTopStack(head)!=NULL) {
-            free(p);
+    while (p!=nullptr){
+        if(getTopStack(head)!=nullptr) {
             p = popStack(head);
         }else{
             break;
         }
     }
-    free(head);
 }
 /*获取两点间的最短路径长度（在跑完Floyd以后）*/
 int getShortPath(Node* star,Node* end){
     return shortPath[star->mainId-1][end->mainId-1];
 }
+bool NodeArrayIsEmpty(Node** root,int NodeSize){
+    for (int i = 0; i < NodeSize; ++i) {
+        if (root[i]!=nullptr){
+            return false;
+        }
+    }
+    return true;
+}
 /*途径多个点的最佳路径计算*/
 Stack * createShortedMap(Node** root,int NodeSize){
     Stack* vector = createStack();
-    pushStack(vector,initStackNode(root[0]));
-    printf("共有%d节点\n",NodeSize);
-    while(!StackIsFull(vector,NodeSize)){
-        stackNode * top = getTopStack(vector);
-        Node * min = root[1];
-        for (int j = 1; j < NodeSize; ++j) {
-            if (!NodeInStack(vector,root[j])){
-                if(min == NULL){
-                    min = root[j];
-                    continue;
-                }
-                if(getShortPath(top->data,root[j]) < getShortPath(top->data,min)){
-                    min = root[j];
-                }
+    Node *now = root[0];
+    int min = -1;
+    pushStack(vector,initStackNode(now));
+    while (!StackIsFull(vector,NodeSize)){
+        for (int i = 0; i < NodeSize; ++i) {
+            if (NodeInStack(vector,root[i])){
+                continue;
+            }
+            if(min == -1){
+                min = i;
+                continue;
+            }
+            if(getShortPath(now,root[min]) < getShortPath(now,root[i])){
+                min = i;
             }
         }
-        pushStack(vector,initStackNode(min));
+        if(min == -1){
+            break;
+        }
+        pushStack(vector,initStackNode(root[min]));
+        now = root[min];
+        min = -1;
     }
-    pushStack(vector,initStackNode(root[NodeSize]));
-    return reverseStack(vector);
+    return vector;
 }
