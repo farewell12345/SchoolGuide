@@ -4,6 +4,7 @@
 #include "GUI.h"
 #include "../ToolFunction/toolsFunction.h"
 #include <cstdio>
+#include "../KeyEvent/KeyEvent.h"
 #define WindowWeight 1400
 #define WindowHeight 840
 #define nodeWeight 170
@@ -18,6 +19,7 @@
 #define OKBOTTOM OKTOP+40
 static Node* mapStart;
 static Node* mapEnd;
+Stack* crux;
 int canDrawPath = false;
 int mouse_x = 0,mouse_y = 0; // 鼠标坐标位置
 static int switchState = 0; // 选项状态
@@ -26,16 +28,25 @@ void drawTable(Node *head){
     setcolor(EGERGB(0, 0, 0));
     setfont(20, 0, "楷体");
     setfontbkcolor(EGERGB(247, 238, 214));
-    int left = 0,right = left+nodeWeight,top = 0,down = top+nodeHeight;
+    int left = 0,right = left+nodeWeight
+            ,top = 0,down = top+nodeHeight;
     int num = 0;
     for (int i = 0; i < 4; ++i) {
         for (int j = 0; j < NodeNum/4 + 1; ++j,num++) {
             setfillcolor(EGERGB(247, 238, 214));
             bar(left,top,right,down);
             if (num < NodeNum){
-                outtextrect(left+20, top+10,200,50, head->sequenceNext[num]->name);
+
+                if(NodeInStack(crux,head->sequenceNext[num])){
+                    setfillcolor(EGERGB(255,255,0));
+                    bar(left,top,right,down);
+                }
+                fillellipse(MapLeft+head->sequenceNext[num]->x,
+                            MapTop + head->sequenceNext[num]->y,
+                            10,10);
                 setfillcolor(EGERGB(0xFF, 0x0, 0x0));
-                fillellipse(MapLeft+head->sequenceNext[num]->x,MapTop + head->sequenceNext[num]->y,10,10);
+                outtextrect(left+20, top+10,
+                            200,50, head->sequenceNext[num]->name);
             }
             left = right;
             right += nodeWeight;
@@ -278,15 +289,17 @@ void TwoNodeAllPath(Node* head,Node *star,Node* end){
         }
     }
 }
+
 void initWindows(Node* head){
+    crux = KeyEvent(head);
     initgraph(WindowWeight, WindowHeight,INIT_RENDERMANUAL);
     mapEnd = mapStart = nullptr;
     //初始化图形界面
     FlushMap(head);
-    for (; is_run(); delay_fps(60)) {
-        if(getmouse().is_left()) {
+    for (; is_run(); delay_fps(90)) {
+        while(getmouse().is_left()) {
             mousepos(&mouse_x, &mouse_y);
-            if (mouse_x <= 170 * 6 && mouse_y <= 200) {
+            if (mouse_x <= 1020 && mouse_y <= 200) {
                 Node *nowNode = head->sequenceNext[(mouse_y / 50) * 6 + mouse_x / 170];
                 showInfo(nowNode);
                 switch(switchState){
@@ -374,7 +387,6 @@ void initWindows(Node* head){
             }
         }
     }
-    getch();							//暂停，等待键盘按键
     closegraph();						//关闭图形界面
 };
 void clear(Node* head){

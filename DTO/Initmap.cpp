@@ -79,7 +79,7 @@ void InsertNode(Node* root,Node* sign){
         }
         InsertNode(root->right,sign);
     }
-};
+}
 /*根据ID搜索结点*/
 Node* searchNodeWithID(const Node* root,int ID){
     if (root == NULL || root->ID == ID){
@@ -95,15 +95,15 @@ Node* searchNodeWithID(const Node* root,int ID){
 Node* searchNodeWithName(const Node* root,char* name){
     Node *p = preOrderTrailTree(root,name);
     return p;
-};
+}
 /*设置结点名字*/
 void setName(Node* root,char* name){
     strcpy(root->name,name);
-};
+}
 /*设置结点介绍信息*/
 void setIntroduce(Node* root,char* introduce){
     strcpy(root->introduce,introduce);
-};
+}
 /*设置结点ID*/
 void setID(Node* root,int ID){
     root->ID = ID;

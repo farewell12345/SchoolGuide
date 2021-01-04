@@ -106,7 +106,7 @@ Node * frontOrderTrailTree(Node *head){
     return head;
 }
 /*遍历查找*/
-Node *preOrderTrailTree(const Node *head,char *name){
+Node * preOrderTrailTree(const Node *head,char *name){
     Node* cur =(Node*) head;
     /*不断沿着节点往下遍历，直到所有节点全部被遍历
      * 线索化以后，树的最后一个节点的右孩子（后继节点）为NULL*/

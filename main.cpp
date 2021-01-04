@@ -25,6 +25,7 @@
 #include "ToolFunction/toolsFunction.h"
 #include "ReadIndex/readExcel.h"
 #include "GUI/GUI.h"
+
 int NodeNum; // 结点总个数
 int **shortPath = NULL; // 距离向量
 int **path = NULL; // 路径向量
@@ -35,6 +36,7 @@ int main(){
     frontOrderTrailTree(head); // 对邻接表的结点进行线索化，加快遍历查找速度
     head = readRemote(head); // 将各个顶点进行连接，生成邻接表
     Floyd(head); // 多源最短路径计算，会生成一个shortPath用来存各顶点之间的距离向量，path存各个顶点的路径向量
+
     initWindows(head);
     return 0;
 }
