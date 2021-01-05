@@ -25,7 +25,7 @@
 #include "ToolFunction/toolsFunction.h"
 #include "ReadIndex/readExcel.h"
 #include "GUI/GUI.h"
-
+#include "DTO/Tree/Tree.h"
 int NodeNum; // 结点总个数
 int **shortPath = NULL; // 距离向量
 int **path = NULL; // 路径向量

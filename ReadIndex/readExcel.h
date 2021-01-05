@@ -7,7 +7,7 @@
 #include "../DTO/DTO.h"
 #include "../DTO/Initmap.h"
 #include <string.h>
-
+#include "../DTO/Tree/Tree.h"
 #include "../ToolFunction/toolsFunction.h"
 Node* readExcel();
 Node* readRemote(Node* head);

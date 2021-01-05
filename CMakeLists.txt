@@ -12,5 +12,7 @@ add_executable(class_protect main.cpp
         GUI/GUI.cpp GUI/GUI.h
         ToolFunction/toolsFunction.cpp
         ReadIndex/readExcel.cpp
-        KeyEvent/KeyEvent.h KeyEvent/KeyEvent.cpp)
+        KeyEvent/KeyEvent.h KeyEvent/KeyEvent.cpp
+        DTO/Tree/Tree.h DTO/Tree/Tree.cpp
+        DTO/Stack/Stack.h DTO/Stack/Stack.cpp List/List.cpp)
 target_link_libraries(class_protect freeglut_static opengl32 winmm gdi32 glu32.lib graphics64 uuid msimg32 imm32 ole32 oleaut32 gdiplus)

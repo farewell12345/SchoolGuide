@@ -14,8 +14,6 @@
 #define true 1
 #define false 0
 #define INF INT_MAX //两点之间无穷大
-
-
 struct Node;
 struct Edge;
 extern int NodeNum;
@@ -24,7 +22,6 @@ typedef struct Edge{
       struct Node* top,*tail; // 定义弧头，弧尾的顶点
       struct Edge * next;
 }Edge;
-
 typedef struct Node{
     int mainId; // 快速索引ID
     char name[50]; // 景点名称
@@ -38,28 +35,6 @@ typedef struct Node{
     int rightTag;
     struct Node** sequenceNext; // 顺序下一个
 }Node;
-
-typedef struct stack{
-    Node *data;
-    struct stack* next;
-}stackNode;
-
-typedef struct{
-    struct stack* top;
-}Stack;
-
-
-Stack *createStack();
-Stack* pushStack(Stack*head,stackNode *p);
-Stack* reverseStack(Stack* p);
-stackNode *popStack(Stack*head);
-stackNode *getTopStack(Stack*head);
-stackNode *initStackNode(Node*p);
-bool StackIsEmpty(Stack*head);
-bool NodeInStack(Stack* head,Node* p);
-bool StackIsFull(Stack* head,int MAXSIZE);
-void printStack(Stack*head);
 void printAllPath(Node *star,Node* end);
-int getStackSize(Stack *t);
 int getNodeSize(Node *star);
 #endif //CLASS_PROTECT_DTO_H

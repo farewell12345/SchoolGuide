@@ -10,12 +10,8 @@ Node* createMap(Node* );
 Node* initNode(Node*);
 void initEdge(Edge*cur,Node* tail,Node* top,int weight);
 Node* pushSequenceNode(Node* head,Node* sign);
-Node * InsertNode(Node* root, Node* sign);
 void setName(Node* root,char* name);
 void setIntroduce(Node* root,char* introduce);
 void setID(Node* root,int ID);
-Node* searchNodeWithID(const Node* root,int ID);
-
-Node* searchNodeWithName(const Node* root,char* name);
 void remoteNode(Node* tail,Node* top,int);
 #endif //CLASS_PROTECT_INITMAP_H

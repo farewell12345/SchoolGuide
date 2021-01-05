@@ -65,37 +65,6 @@ Node* pushSequenceNode(Node* head,Node* sign){
     return head;
 }
 /*构建搜索二叉树*/
-void InsertNode(Node* root,Node* sign){
-    if (root->ID >= sign->ID){ // ID号大的在右，小的在左
-        if(root->left == NULL){
-            root->left = sign;
-            return;
-        }
-        InsertNode(root->left,sign);
-    }else{
-        if(root->right == NULL){
-            root->right = sign;
-            return;
-        }
-        InsertNode(root->right,sign);
-    }
-}
-/*根据ID搜索结点*/
-Node* searchNodeWithID(const Node* root,int ID){
-    if (root == NULL || root->ID == ID){
-        return (Node*)root;
-    }
-    if(ID > root->ID){
-        return searchNodeWithID(root->right,ID);
-    }else{
-        return searchNodeWithID(root->left,ID);
-    }
-};
-/*根据名字搜索结点*/
-Node* searchNodeWithName(const Node* root,char* name){
-    Node *p = preOrderTrailTree(root,name);
-    return p;
-}
 /*设置结点名字*/
 void setName(Node* root,char* name){
     strcpy(root->name,name);

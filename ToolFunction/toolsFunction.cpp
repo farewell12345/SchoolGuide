@@ -77,65 +77,7 @@ void dfs(Node* cur) {
 /*根据主键获取结点*/
 Node *getNode(const Node *head, int i){
     return head->sequenceNext[i];
-};
-/*判断两个字符串是否相同*/
-bool equals(char* name1,char* name2){
-    return strcmp(name1,name2) == 0? true:false;
-};
-/*线索化*/
-Node *prev; // 上次访问的节点(前驱节点）
-Node * frontOrderTrailTree(Node *head){
-    if(head == NULL) return head;
-
-    if(head->left == NULL){ // 遵循左前右后
-        head->left = prev; // 将空闲的左节点指向前驱节点
-        head->leftTag = 1; // 表示这个节点的左指针已被线索化
-    }
-    if(prev != NULL && prev->right == NULL){
-        prev->right = head; // 将空闲的右节点指向后继节点
-        prev ->rightTag = 1;// 表示这个节点的右指针已被线索化
-    }
-
-    prev = head; // 线索化后将prev移动过来，开始寻找head的下一个后继节点
-    if(head->leftTag == 0){ // 判断当前节点的左节点有没有线索化过
-        head->left = frontOrderTrailTree(head->left);// 搜寻左子树
-    }
-    if(head->rightTag == 0){
-        head->right = frontOrderTrailTree(head->right); // 搜寻右子树
-    }
-    return head;
 }
-/*遍历查找*/
-Node * preOrderTrailTree(const Node *head,char *name){
-    Node* cur =(Node*) head;
-    /*不断沿着节点往下遍历，直到所有节点全部被遍历
-     * 线索化以后，树的最后一个节点的右孩子（后继节点）为NULL*/
-    while (cur!=NULL)
-    {
-        while (cur->leftTag == 0)
-        {
-            if (equals(name,cur->name)){
-                return cur;
-            }
-            cur = cur->left; // 沿着左孩子向下遍历直到底部
-        }
-        if (equals(name,cur->name)){
-            return cur;
-        }
-        cur = cur->right; // 沿着右孩子寻找后继节点
-    }
-    return NULL;
-}
-/*打印景点表*/
-void printMap(const Node *head){
-    for (int i = 0; i < NodeNum; ++i) {
-        printf("%s", head->sequenceNext[i]->name);
-        for (int j = 0; j < abs(20-strlen(head->sequenceNext[i]->name)); ++j) {
-            printf(" ");
-        }
-        printf("|\tID:%d\t|\n",head->sequenceNext[i]->ID);
-    }
-};
 /*多源最短路径算法*/
 void Floyd(Node* head) {
     /*分配空间*/
@@ -170,23 +112,6 @@ void Floyd(Node* head) {
         }
     }
 }
-/*两点间的最短路径输出*/
-void printShortPath(const Node*head,Node* star,Node* end){
-    int i = star->mainId-1,j = end ->mainId-1;
-    if (shortPath[i][j] < INF) {
-        printf("%s->",star->name);
-        printf("%s",end->name);
-        printf(":%dM\n路径: ", shortPath[i][j]); // 获取i点到j点的最短路径
-    }else {
-        printf("两地暂时无法直接到达");
-        return;
-    }
-    Stack *temp  = createStack();
-    getPath(temp, head,i,j); // 输出i点到j点的路径
-    printStack(temp);
-    printf("\n");
-    freeStack(temp);
-};
 void freeStack(Stack *head){
     if (head == nullptr)return;
     if (getTopStack(head) == NULL){

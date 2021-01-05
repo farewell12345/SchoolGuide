@@ -14,7 +14,7 @@ List* split(char* tab){
         p->next = NULL;
         p->data = (char*)malloc(sizeof(char)*200);
         strcpy(p->data,token);
-        head = push(head,p);
+        head = ListPush(head,p);
         token = strtok(NULL, ",");
     }
     return head;

@@ -6,6 +6,9 @@
 #define CLASS_PROTECT_GUI_H
 #include <graphics.h>//包含EGE的头文件
 #include "../DTO/DTO.h"
+#include "../DTO/Tree/Tree.h"
+#include "../DTO/Stack/Stack.h"
+#include "../List/LinkList.h"
 void initWindows(Node *head);
 void FlushModeBehave(char mode[]);
 void FlushMap(Node* head);
