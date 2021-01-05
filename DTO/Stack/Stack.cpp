@@ -32,20 +32,21 @@ Stack* pushStack(Stack* head,stackNode* node){
 }
 /*弹栈*/
 stackNode *popStack(Stack*head){
+    if (head == NULL)return NULL;
     stackNode *p = head->top;
     head->top = head->top->next;
     p->next = NULL;
     return p;
 }
 /*获取栈顶元素，不弹栈*/
-stackNode *getTopStack(Stack*head){
+stackNode *getTopStack(const Stack*head){
     return head->top;
 }
 /*初始化栈元素（封装结点）*/
 stackNode *initStackNode(Node*p){
     stackNode *q =(stackNode*) malloc(sizeof(stackNode));
     q->data = p;
-    q->next=NULL;
+    q->next= nullptr;
     return q;
 }
 /*栈判空*/

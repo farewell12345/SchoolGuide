@@ -94,7 +94,7 @@ void FlushMap(Node* head){
             break;
     }
 }
-void DrawTwoNodeShortPath(char* path,Node* head,Node*start,Node*end){
+void DrawTwoNodeShortPath(char* path,const Node* head,const Node*start,const Node*end){
     Stack *temp = createStack();
     getPath(temp,head,start->mainId-1,end->mainId-1);
     temp = reverseStack(temp);
@@ -112,15 +112,13 @@ void DrawTwoNodeShortPath(char* path,Node* head,Node*start,Node*end){
             }
             line(MapLeft+now->data->x,MapTop+now->data->y,
                  MapLeft+next->data->x,MapTop+next->data->y);
-            free(now);
         }
     }
-    free(temp);
 }
 void DrawPathText(char* path){
     setfillcolor(EGERGB(255, 255,255));
-    bar(MapRight+50,MapTop,MapRight+400,MapTop+100);
-    outtextrect(MapRight+10,MapTop,350,150, path);
+    bar(1020,0,1400,300);
+    outtextrect(MapRight,150,350,150, path);
 }
 void Guide(Node*head,Node* nowNode){
     if (mapStart == nullptr) {
@@ -193,8 +191,8 @@ void showInfo(Node*nowNode){
     strcat(info,":");
     strcat(info,nowNode->introduce);
     setfillcolor(EGERGB(255, 255,255));
-    bar(1100,40,1400,200);
-    outtextrect(1100,50,200,200,info);
+    setbkcolor(EGERGB(255,255,255));
+    outtextrect(1100,50,200,100,info);
 }
 void DrawOk(){
     setfillcolor(EGERGB(102,204,255));
@@ -299,8 +297,10 @@ void initWindows(Node* head){
     for (; is_run(); delay_fps(90)) {
         while(getmouse().is_left()) {
             mousepos(&mouse_x, &mouse_y);
-            if (mouse_x <= 1020 && mouse_y <= 200) {
-                Node *nowNode = head->sequenceNext[(mouse_y / 50) * 6 + mouse_x / 170];
+            if (mouse_x <= 1200 && mouse_y <= 200) {
+                int i = (mouse_y / 50) * 6 + mouse_x / 170;
+                if(i >= NodeNum)break;
+                Node *nowNode = head->sequenceNext[i];
                 showInfo(nowNode);
                 switch(switchState){
                     case 0:
@@ -351,7 +351,6 @@ void initWindows(Node* head){
                 printf("点击确定\n");
                 int NodeSize = getStackSize(manyNode);
                 if((NodeSize<2) && !canDrawPath){
-                    DrawPathText("您还没有选择地点");
                     continue;
                 }else if (NodeSize < 2){
                     continue;
@@ -362,28 +361,39 @@ void initWindows(Node* head){
                 stackNode *temp = popStack(manyNode);
                 for (int i = 0; i < NodeSize; ++i) {
                     p[i] = temp->data;
-                    free(temp);
                     if (getTopStack(manyNode) == NULL){
                         break;
                     }
                     temp = popStack(manyNode);
                 }
-                char path[256]="";
+                char path[10000]="";
                 Stack*shortedMap = createShortedMap(p,NodeSize);
-                while(getTopStack(shortedMap)!=NULL) {
-                    stackNode *now = popStack(shortedMap);
-                    stackNode *next = getTopStack(shortedMap);
-                    if (next == NULL || next->next == NULL){
+                if(shortedMap==NULL){
+                    break;
+                }
+                stackNode *next = getTopStack(shortedMap);
+                while(next!=nullptr) {
+                    stackNode *now = next;
+                    next = next->next;
+                    if (next == nullptr || next->next == nullptr){
+                        canDrawPath = false;
                         break;
                     }
                     printf("%s->%s\n",now->data->name,next->data->name);
+                    int flag = false;
+                    if(next->next==nullptr){
+                        flag = true;
+                    }
                     if(getShortPath(now->data,next->data) <INF) {
                         DrawTwoNodeShortPath(path, head, now->data, next->data);
                     }else{
                         DrawTwoNodeShortPath(path, head, next->data, now->data);;
                     }
+                    if (flag == true){
+                        canDrawPath = false;
+                        break;
+                    }
                 }
-                DrawPathText(path);
             }
         }
     }

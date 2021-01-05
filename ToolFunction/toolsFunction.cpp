@@ -139,9 +139,12 @@ bool NodeArrayIsEmpty(Node** root,int NodeSize){
     return true;
 }
 /*途径多个点的最佳路径计算*/
-Stack * createShortedMap(Node** root,int NodeSize){
+Stack * createShortedMap(Node** root,const int NodeSize){
     Stack* vector = createStack();
     Node *now = root[0];
+    if(now == NULL){
+        return NULL;
+    }
     int min = -1;
     pushStack(vector,initStackNode(now));
     while (!StackIsFull(vector,NodeSize)){
@@ -157,7 +160,7 @@ Stack * createShortedMap(Node** root,int NodeSize){
                 min = i;
             }
         }
-        if(min == -1){
+        if(min == -1 || root[min] == NULL){
             break;
         }
         pushStack(vector,initStackNode(root[min]));

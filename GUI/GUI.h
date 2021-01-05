@@ -17,7 +17,7 @@ void drawTable(Node *head);
 void drawBackGround();
 void DrawOk();
 void Guide(Node*head,Node* nowNode);
-void DrawTwoNodeShortPath(char* path,Node* head,Node*start,Node*end);
+void DrawTwoNodeShortPath(char* path,const Node* head,const Node*start,const Node*end);
 void TwoNodeAllPath(Node* head,Node *star,Node* end);
 void clear(Node* head);
 #endif //CLASS_PROTECT_GUI_H

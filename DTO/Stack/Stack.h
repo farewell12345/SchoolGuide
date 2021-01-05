@@ -18,7 +18,7 @@ Stack *createStack();
 Stack* pushStack(Stack*head,stackNode *p);
 Stack* reverseStack(Stack* p);
 stackNode *popStack(Stack*head);
-stackNode *getTopStack(Stack*head);
+stackNode *getTopStack(const Stack*head);
 stackNode *initStackNode(Node*p);
 bool StackIsEmpty(Stack*head);
 bool NodeInStack(Stack* head,Node* p);
